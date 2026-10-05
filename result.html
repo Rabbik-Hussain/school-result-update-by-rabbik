@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>লার্নিং স্কুল - ফলাফল ও প্রগ্রেস রিপোর্ট ব্যবস্থাপনা সিস্টেম</title>
+    <!-- HTML2PDF CDN for Direct PDF Download & Sharing -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style2.css">
+
+    <!-- *for icon -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- *for font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Handlee&family=Italianno&family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Playwrite+DE+LA+Guides&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+
+<!-- ========================================================= -->
+<!-- FORM SECTION                                              -->
+<!-- ========================================================= -->
+<div id="formSection" class="view-section container">
+
+    <!-- Top Archive Bar -->
+    <div class="top-archive-bar">
+        <span style="font-weight: bold; color: var(--secondary-blue);">ছাত্র-ছাত্রীদের প্রোগ্রেস বুক সিস্টেম</span>
+        <button class="btn-archive" onclick="toggleSearchForm()">🔍 পুরাতন স্টুডেন্ট খুঁজুন</button>
+    </div>
+
+    <!-- Search Form Section -->
+    <div id="searchSection" class="search-card">
+        <h4 style="margin-bottom: 10px; color: var(--secondary-blue);">পুরাতন স্টুডেন্ট অনুসন্ধান</h4>
+        <div class="grid-3">
+            <div class="form-group">
+                <label>সেশন (Session):</label>
+                <input type="text" id="searchSession" placeholder="Like: 2026">
+            </div>
+            <div class="form-group">
+                <label>শ্রেণী (Class):</label>
+                <input type="text" id="searchClass" placeholder="Like: Class-One">
+            </div>
+            <div class="form-group">
+                <label>স্টুডেন্টের নাম:</label>
+                <input type="text" id="searchName" placeholder="শিক্ষার্থীর নাম/Student Name">
+            </div>
+        </div>
+        <button class="btn-next" style="font-size: 14px; padding: 8px 15px;" onclick="searchStudent()">খুঁজুন ও লোড করুন</button>
+    </div>
+
+    <div class="header">
+        <div class="logo-container">
+
+            <img src="image/logo2.jpg" alt="logo" class="header-logo-img">
+
+            <div>
+                <div class="school-title">লার্নিং স্কুল</div>
+                <div class="motto">স্থাপিত: ২০১৮ইং</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- স্টেপ ইন্ডিকেটর -->
+    <div class="step-indicator">
+        <div class="step-item active" id="ind-1">১</div>
+        <div class="step-item" id="ind-2">২</div>
+        <div class="step-item" id="ind-3">৩</div>
+        <div class="step-item" id="ind-4">৪</div>
+    </div>
+
+    <!-- ধাপ ১ -->
+    <div class="step-content active" id="step-1">
+        <h3>ধাপ ১: শ্রেণীর সাধারণ তথ্য ও বিষয়সমূহ</h3>
+        <hr><br>
+        <div class="grid-3">
+            <div class="form-group">
+                <label>শ্রেণীর নাম:</label>
+                <input type="text" id="className" placeholder="Like: Class-Play/One/Five" onblur="validateTeacherClass()">
+            </div>
+            <div class="form-group">
+                <label>সেশন (Session):</label>
+                <input type="text" id="sessionYear" placeholder="Like:2026">
+            </div>
+            <div class="form-group">
+                <label>মোট শিক্ষার্থী সংখ্যা:</label>
+                <input type="number" id="totalStudents" min="1" placeholder="Like: 31">
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="form-group">
+                <label>প্রান্তিক মূল্যায়ন নির্বাচন করুন:</label>
+                <select id="termType">
+                    <option value="1">১ম প্রান্তিক মূল্যায়ন</option>
+                    <option value="2">২য় প্রান্তিক মূল্যায়ন</option>
+                    <option value="3">৩য় প্রান্তিক/বার্ষিক মূল্যায়ন</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>মোট বিষয় সংখ্যা:</label>
+                <input type="number" id="totalSubjects" min="1" placeholder="Like: 10" onchange="generateSubjectFields()">
+            </div>
+        </div>
+
+        <div id="subjectContainer"></div>
+
+        <div class="btn-group">
+           <button class="btn-prev-page" onclick="window.location.href='page.html'">
+                পূর্ববর্তী পৃষ্ঠা
+            </button>
+            <button class="btn-next" onclick="goToStep2()">পরবর্তী ধাপ &rarr;</button>
+        </div>
+    </div>
+
+    <!-- ধাপ ২ -->
+    <div class="step-content" id="step-2">
+        <h3>ধাপ ২: বার্ষিক কার্যদিবসের তথ্য</h3>
+        <hr><br>
+        <p style="margin-bottom: 10px;">১২ মাসের ক্লাসের মোট কার্যদিবস লিখুন:</p>
+        <div class="grid-12" id="monthsContainer"></div>
+        <br>
+        <div class="card">
+            <h4>বছরে মোট কার্যদিবস: <span id="totalWorkingDays">০</span> দিন</h4>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn-prev" onclick="goToStep(1)">&larr; পূর্ববর্তী</button>
+            <button class="btn-next" onclick="goToStep3()">পরবর্তী ধাপ &rarr;</button>
+        </div>
+    </div>
+
+    <!-- ধাপ ৩ -->
+    <div class="step-content" id="step-3">
+        <h3>ধাপ ৩: শিক্ষার্থীদের উপস্থিতি ও প্রাপ্ত নম্বর ইনপুট</h3>
+        <hr><br>
+        <div id="studentsMarksContainer"></div>
+
+        <div class="btn-group">
+            <button class="btn-prev" onclick="goToStep(2)">&larr; পূর্ববর্তী</button>
+            <button class="btn-next" onclick="processResults()">ফলাফল দেখুন &rarr;</button>
+        </div>
+    </div>
+
+    <!-- ধাপ ৪ -->
+    <div class="step-content" id="step-4">
+        <h3>ধাপ ৪: চূড়ান্ত ফলাফল ও মেধা তালিকা</h3>
+        <hr><br>
+        
+        <div class="card">
+            <h4>শ্রেণী: <span id="resClassName"></span> | সেশন: <span id="resSession"></span> | মোট শিক্ষার্থী: <span id="resTotalStudents"></span> | মোট কার্যদিবস: <span id="resWorkingDays"></span> দিন | পরীক্ষা: <span id="resTermName"></span></h4>
+        </div>
+
+        <div style="overflow-x: auto;">
+            <table id="resultTable">
+                <thead>
+                    <tr>
+                        <th>রোল নম্বর</th>
+                        <th>শিক্ষার্থীর নাম</th>
+                        <th>উপস্থিতি (%)</th>
+                        <th id="resTableScoreHeader">মোট নম্বর</th>
+                        <th id="resTableWeightHeader">১০% ওয়েটেজ</th>
+                        <th>GPA</th>
+                        <th>অবস্থা</th>
+                        <th>মেধা স্থান</th>
+                        <th>বিষয়ভিত্তিক গ্রেড</th>
+                        <th>বিস্তারিত</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn-prev" onclick="goToStep(3)">&larr; পরিবর্তন করুন</button>
+            <button class="btn-next" onclick="downloadResultPDF()">📥 PDF ডাউনলোড করুন</button>
+            <button class="btn-next" onclick="printResultPage()">🖨️ প্রিন্ট</button>
+            <button class="btn-booklet" onclick="showBookletView()">📖 বুকলেট প্রগ্রেস রিপোর্ট দেখুন</button>
+        </div>
+    </div>
+</div>
+
+<!-- Multiple Match Selection Modal -->
+<div id="multipleSelectModal" class="modal">
+    <div class="modal-content">
+        <h4 style="margin-bottom: 15px; color: var(--secondary-blue);">একাধিক শিক্ষার্থী পাওয়া গেছে</h4>
+        <p style="font-size: 13px; margin-bottom: 10px;">রোল নম্বর অনুযায়ী শিক্ষার্থী নির্বাচন করুন:</p>
+        <select id="multipleStudentDropdown" style="margin-bottom: 15px;"></select>
+        <button class="btn-next" style="width:100%; padding: 8px;" onclick="confirmStudentSelection()">সিলেক্ট করুন</button>
+    </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- BOOKLET SECTION                                           -->
+<!-- ========================================================= -->
+<div id="bookletSection" class="view-section booklet-container hidden">
+    <div class="controls">
+        <button class="btn-controls" onclick="showFormView()">&larr; ফর্মে ফিরে যান</button>
+        <div style="display: flex; align-items: center; gap: 8px; color: white;">
+            <label style="color:white; font-size:14px;">শিক্ষার্থী সিলেক্ট করুন:</label>
+            <select id="studentSelector" onchange="loadStudentBooklet()" style="width: auto; padding: 5px 10px;">
+            </select>
+        </div>
+        <button class="btn-controls" onclick="prevPage()">◄ আগের পৃষ্ঠা</button>
+        <span class="page-indicator" id="page-num">পৃষ্ঠা: ১ / ৭</span>
+        <button class="btn-controls" onclick="nextPage()">পরের পৃষ্ঠা ►</button>
+        <button class="btn-controls" onclick="downloadBookletPDF()">📥 ডাউনলোড ও শেয়ার PDF</button>
+        <button class="btn-controls" onclick="printBooklet()">🖨️ প্রিন্ট</button>
+        
+        <!-- Action Buttons (Edit & Add Term) -->
+        <button class="btn-controls btn-edit" onclick="handleEditCurrentStudent()">✏️ Edit</button>
+        <button class="btn-controls btn-add" onclick="handleAddNewTerm()">➕ Add New প্রান্তিক মূল্যায়ন</button>
+    </div>
+
+    <div class="book-wrapper">
+        <div class="book">
+
+            <!-- PAGE 1: Front Page -->
+            <div class="page-node" id="p1">
+                <div class="page-front">
+                    <div class="cover-card">
+                        <div class="top-header">
+                            <div class="top-motto">
+                                <span>শিক্ষাই আলো</span>
+                                <span>আলোই শক্তি</span>
+                            </div>
+                            <div class="school-title-bn">লার্নিং স্কুল</div>
+                            <div class="school-title-en">LEARNING SCHOOL</div>
+                            <div class="school-address">ছত্রিশ, ফেঞ্চুগঞ্জ, সিলেট।</div>
+                        </div>
+
+                        <div class="content">
+
+                            <img src="image/logo2.jpg" alt="logo" class="logo-img-front">
+
+                            <div class="report-title-bn">প্রগ্রেস রিপোর্ট</div>
+                            <div class="report-title-en">Progress Report</div>
+
+                            <div class="year-boxes" id="yearBoxContainer">
+                                <div class="year-box">২</div>
+                                <div class="year-box">০</div>
+                                <div class="year-box">২</div>
+                                <div class="year-box">৬</div>
+                            </div>
+
+                            <div class="info-section">
+                                <div class="info-row">
+                                    <span>ছাত্র/ছাত্রীর নামঃ</span>
+                                    <div class="dots" id="bk-stud-name">-</div>
+                                </div>
+
+                                <div class="info-row two-col">
+                                    <div class="col-item">
+                                        <span>শ্রেণী ঃখ</span>
+                                        <div class="dots" id="bk-stud-class">-</div>
+                                    </div>
+                                    <div class="col-item">
+                                        <span>রোল নংঃ</span>
+                                        <div class="dots" id="bk-stud-roll">-</div>
+                                    </div>
+                                </div>
+
+                                <div class="info-row two-col">
+                                    <div class="col-item">
+                                          <span>Student ID:</span>
+                                        <div class="dots" id="bk-stud-id">
+                                        </div>
+                                    </div>
+                                    <div class="col-item">
+                                        <span>শিক্ষাবর্ষঃ</span>
+                                        <div class="dots" id="bk-stud-session">২০২৬</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bottom-footer">
+                            <div class="footer-circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-back">
+
+                    <img src="image/logo2.jpg" alt="logo" class="watermark-img">
+
+                </div>
+            </div>
+
+            <!-- PAGE 2: 1st Term Evaluation -->
+            <div class="page-node" id="p2">
+                <div class="page-front">
+                    <div class="page-inner-padding">
+                        <table class="report-table" id="bk-table-term1">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" style="width: 22%;">বিষয়</th>
+                                    <th colspan="8" class="header-main">১ম প্রান্তিক মূল্যায়ন</th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 9%;">পূর্ণমান</th>
+                                    <th style="width: 10%;">শ্রেণিতে প্রাপ্ত সর্বোচ্চ নম্বর</th>
+                                    <th style="width: 10%;">নিজের প্রাপ্ত নম্বর</th>
+                                    <th style="width: 6%;">GL</th>
+                                    <th style="width: 6%;">GP</th>
+                                    <th style="width: 8%;">মোট GPA</th>
+                                    <th style="width: 11%;">১ম প্রান্তিক মূল্যায়নের ১০%</th>
+                                    <th style="width: 12%;">মেধা স্থান</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="page-back">
+
+                    <img src="image/logo2.jpg" alt="logo" class="watermark-img">
+
+                </div>
+            </div>
+
+            <!-- PAGE 3: 2nd Term Evaluation -->
+            <div class="page-node" id="p3">
+                <div class="page-front">
+                    <div class="page-inner-padding">
+                        <table class="report-table" id="bk-table-term2">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" style="width: 22%;">বিষয়</th>
+                                    <th colspan="8" class="header-main">২য় প্রান্তিক মূল্যায়ন</th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 9%;">পূর্ণমান</th>
+                                    <th style="width: 10%;">শ্রেণিতে প্রাপ্ত সর্বোচ্চ নম্বর</th>
+                                    <th style="width: 10%;">নিজের প্রাপ্ত নম্বর</th>
+                                    <th style="width: 6%;">GL</th>
+                                    <th style="width: 6%;">GP</th>
+                                    <th style="width: 8%;">মোট GPA</th>
+                                    <th style="width: 11%;">২য় প্রান্তিক মূল্যায়নের ১০%</th>
+                                    <th style="width: 12%;">মেধা স্থান</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="page-back">
+
+                    <img src="image/logo2.jpg" alt="logo" class="watermark-img">
+
+                </div>
+            </div>
+
+            <!-- PAGE 3B: 3rd Term / Annual Evaluation -->
+            <div class="page-node" id="p3b">
+                <div class="page-front">
+                    <div class="page-inner-padding">
+                        <table class="report-table" id="bk-table-term3">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" style="width: 22%;">বিষয়</th>
+                                    <th colspan="8" class="header-main">৩য় প্রান্তিক/বার্ষিক মূল্যায়ন</th>
+                                </tr>
+                                <tr>
+                                    <th style="width: 9%;">পূর্ণমান</th>
+                                    <th style="width: 10%;">শ্রেণিতে প্রাপ্ত সর্বোচ্চ নম্বর</th>
+                                    <th style="width: 10%;">নিজের প্রাপ্ত নম্বর</th>
+                                    <th style="width: 6%;">GL</th>
+                                    <th style="width: 6%;">GP</th>
+                                    <th style="width: 8%;">মোট GPA</th>
+                                    <th style="width: 11%;">৩য় প্রান্তিক/বার্ষিক মূল্যায়নের ৮০%</th>
+                                    <th style="width: 12%;">মেধা স্থান</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="page-back">
+
+                    <img src="image/logo2.jpg" alt="logo" class="watermark-img">
+
+                </div>
+            </div>
+
+            <!-- PAGE 3C: ANNUAL SUMMARY PAGE -->
+            <div class="page-node" id="p3c">
+                <div class="page-front">
+                    <div class="page-inner-padding">
+                        <div style="text-align: center; border-bottom: 2px solid #0b9444; padding-bottom: 8px; margin-bottom: 15px;">
+                            <h2 style="color: #0b9444; font-size: 18px;">বার্ষিক প্রোগ্রেস ও চূড়ান্ত মূল্যায়ন</h2>
+                        </div>
+
+                        <div class="info-section" style="background: #f8f9fa; padding: 10px; border-radius: 5px; margin-bottom: 15px;">
+                            <div class="info-row two-col">
+                                <div class="col-item"><span>নাম:</span> <div class="dots" id="sum-name">-</div></div>
+                                <div class="col-item"><span>শ্রেণী:</span> <div class="dots" id="sum-class">-</div></div>
+                            </div>
+                            <div class="info-row two-col" style="margin-bottom: 0;">
+                                <div class="col-item"><span>সেশন:</span> <div class="dots" id="sum-session">-</div></div>
+                                <div class="col-item"><span>রোল:</span> <div class="dots" id="sum-roll">-</div></div>
+                            </div>
+                        </div>
+
+                        <h4 style="text-align: center; color: var(--secondary-blue); margin-bottom: 10px; font-size: 13px;">সকল প্রান্তিকের মেধা ও নম্বর বিবরণী</h4>
+
+                        <div class="summary-card-grid">
+                            <div class="summary-box">
+                                <h4>প্রথম প্রান্তিক</h4>
+                                <p><strong>মোট নম্বর:</strong> <span id="sum-t1-marks">-</span></p>
+                                <p><strong>মেধা স্থান:</strong> <span id="sum-t1-rank">-</span></p>
+                            </div>
+                            <div class="summary-box">
+                                <h4>দ্বিতীয় প্রান্তিক</h4>
+                                <p><strong>মোট নম্বর:</strong> <span id="sum-t2-marks">-</span></p>
+                                <p><strong>মেধা স্থান:</strong> <span id="sum-t2-rank">-</span></p>
+                            </div>
+                            <div class="summary-box">
+                                <h4>তৃতীয় প্রান্তিক</h4>
+                                <p><strong>মোট নম্বর:</strong> <span id="sum-t3-marks">-</span></p>
+                                <p><strong>মেধা স্থান:</strong> <span id="sum-t3-rank">-</span></p>
+                            </div>
+                        </div>
+
+                        <div class="final-result-banner">
+                            <h3>সর্বমোট বার্ষিক ওয়েটেড নম্বর: <span id="sum-grand-total">-</span></h3>
+                            <h2>চূড়ান্ত মেধা স্থান: <span id="sum-final-rank">-</span> (<span id="sum-final-status">-</span>)</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-back">
+                    
+                   <img src="image/logo2.jpg" alt="logo" class="watermark-img">
+
+                </div>
+            </div>
+
+            <!-- PAGE 4: Attendance and Remarks -->
+            <div class="page-node" id="p4">
+                <div class="page-front">
+                    <div class="report-card">
+                        <table class="header-table">
+                            <tr>
+                                <td style="width: 65%;"><strong>বিদ্যালয়ের উপস্থিতি বিবরণী <span id="bk-att-session"></span>... </strong></td>
+                                <td class="top-right-box" style="width: 35%;">মোট কার্য দিবস: <span class="handwritten-blue" id="bk-working-days">০ দিন</span></td>
+                            </tr>
+                        </table>
+
+                        <table class="main-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 25%;">মাসের নাম</th>
+                                    <th>জানু</th><th>ফেব্রু</th><th>মার্চ</th><th>এপ্রিল</th><th>মে</th><th>জুন</th>
+                                    <th>জুলাই</th><th>আগস্ট</th><th>সেপ্টে</th><th>অক্টো</th><th>নভে</th><th>ডিসে</th>
+                                </tr>
+                            </thead>
+                            <tbody id="bk-attendance-rows"></tbody>
+                        </table>
+
+                        <div class="signature-box">
+                            <div class="signature-item">
+                                <div class="handwritten-sig"></div>
+                                <div class="sig-line">শ্রেণি শিক্ষকের স্বাক্ষর</div>
+                            </div>
+                            <div class="signature-item">
+                                <div class="sig-line">অভিভাবকের স্বাক্ষর</div>
+                            </div>
+                            <div class="signature-item">
+                                <div class="stamp">
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr style="border: 0; border-top: 1px dashed #2e7d32; margin: 8px 0;">
+
+                        <table class="main-table">
+                            <tr>
+                                <td style="width: 25%;">শিক্ষকের মন্তব্য</td>
+                                <td class="remarks-cell">
+                                    <span class="handwritten-blue">
+                                        
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div class="signature-box">
+                            <div class="signature-item">
+                                <div class="handwritten-sig"></div>
+                                <div class="sig-line">শ্রেণি শিক্ষকের স্বাক্ষর</div>
+                            </div>
+                            <div class="signature-item">
+                                <div class="sig-line">অভিভাবকের স্বাক্ষর</div>
+                            </div>
+                            <div class="signature-item">
+                                <div class="stamp">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-back">
+
+                    <img src="image/logo2.jpg" alt="logo" class="watermark-img">
+
+                </div>
+            </div>
+
+            <!-- PAGE 5: Last Page -->
+            <div class="page-node" id="p5">
+                <div class="page-front">
+                    <div class="page-card">
+                        <div>
+                            <div class="notice-header">
+                                অভিভাবকের জ্ঞাতব্য ও করণীয় বিষয়াদি
+                            </div>
+
+                            <div class="notice-list">
+                                <div class="notice-item">
+                                    <span>১.</span>
+                                    <p>১ম ও ২য় সাময়িক পরীক্ষা সহ চূড়ান্ত ফলাফল সহ প্রগ্রেস রিপোর্ট আপনাদেরকে দেয়া হবে।</p>
+                                </div>
+                                <div class="notice-item">
+                                    <span>২.</span>
+                                    <p>প্রগ্রেস রিপোর্ট হাতে পাওয়ার এক সপ্তাহের মধ্যে অভিভাবকদের স্বাক্ষর নিয়ে আবার স্কুলে জমা দিতে হবে।</p>
+                                </div>
+                                <div class="notice-item">
+                                    <span>৩.</span>
+                                    <p>বার্ষিক পরীক্ষার পর প্রগ্রেস রিপোর্ট শিক্ষার্থীদের হাতে হস্তান্তর করা হবে।</p>
+                                </div>
+                                <div class="notice-item">
+                                    <span>৪.</span>
+                                    <p>বিদ্যালয়ের নিয়মিত পোশাকে (Uniform) শিক্ষার্থীকে উপস্থিত হতে হবে।</p>
+                                </div>
+                                <div class="notice-item">
+                                    <span>৫.</span>
+                                    <p>ফলাফল গ্রেডিং পদ্ধতিতে দেওয়া হয়েছে। গ্রেডিং পদ্ধতি নিম্নে উল্লেখ করা হলোঃ</p>
+                                </div>
+                            </div>
+
+                            <table class="grade-table">
+                                <thead>
+                                    <tr>
+                                        <th>Class Interval</th>
+                                        <th>Letter Grade</th>
+                                        <th>Grade Point</th>
+                                        <th>New Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>80-100</td><td>A+</td><td>5.00</td><td>অসাধারণ</td></tr>
+                                    <tr><td>70-79</td><td>A</td><td>4.00</td><td>অর্জিত</td></tr>
+                                    <tr><td>60-69</td><td>A-</td><td>3.50</td><td>সন্তোষজনক</td></tr>
+                                    <tr><td>50-59</td><td>B</td><td>3.00</td><td>প্রাথমিক</td></tr>
+                                    <tr><td>40-49</td><td>C</td><td>2.00</td><td>অগ্রগতির পথে</td></tr>
+                                    <tr><td>33-39</td><td>D</td><td>1.00</td><td>প্রচেষ্টা প্রয়োজন</td></tr>
+                                    <tr><td>0-32</td><td>F</td><td>0.00</td><td>অনুত্তীর্ণ</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div>
+                            <div class="authority-section">
+                                <div>কর্তৃপক্ষ</div>
+                                <div class="phone-num">অফিসঃ +৮৮ ০১৫১৫ ২৭২ ৮১৭</div>
+                            </div>
+                            <div class="bottom-decoration"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="page-back">
+
+                   <img src="image/logo2.jpg" alt="logo" class="watermark-img">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+<footer>
+
+    <section class="section-last">
+
+        <div class="section-last__container">
+
+            <div class="section-last__content-1 card-r">
+
+                <img src="image/logo2.jpg" alt="logo">
+                <p><i class="fa-solid fa-phone"></i> Contact: +880 1515-272817</p>
+                <p><i class="fa-regular fa-envelope"></i> E-mail: learningschool2018@gmail.com</p>
+                <p><i class="fa-solid fa-location-dot"></i> Address: Fenchuganj,Sylhet</p>
+
+            </div>
+
+            <hr class="hr-design">
+
+            <div class="section-last__content-2 card-r">
+
+                <img src="image/hussain.jpg" alt="hussain">
+                <h2>Developed by: Md. Rabbik Hussain</h2>
+                <p><i class="fa-solid fa-phone"></i>Helpline:  +880 1819-682851</p>
+                <p><i class="fa-regular fa-envelope"></i> E-mail: rabbikhussain722245@gmail.com</p>
+                <p><i class="fa-solid fa-location-dot"></i> Address: Fenchuganj,Sylhet</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>শিক্ষার্থীর ফলাফল - বিস্তারিত</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #eef2f5;
+            font-family:
+                'Noto Sans Bengali',
+                'Segoe UI',
+                'Kalpurush',
+                'SolaimanLipi',
+                sans-serif;
+            color: #111;
+        }
+
+        /* =========================
+           TOP ACTION BUTTONS
+        ========================= */
+
+        .details-actions {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto 15px auto;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .details-actions button {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-pdf {
+            background: #d32f2f;
+        }
+
+        .btn-print {
+            background: #1d3557;
+        }
+
+        .btn-back {
+            background: #0a8a43;
+        }
+
+        /* =========================
+           RESULT SHEET
+        ========================= */
+
+        .result-sheet {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            border: 2px solid #1d3557;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.10);
+        }
+
+        /* =========================
+           SCHOOL HEADER
+        ========================= */
+
+        .school-header {
+            text-align: center;
+            border-bottom: 3px solid #0a8a43;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .school-logo {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 8px auto;
+        }
+
+        .school-name {
+            margin: 0;
+            color: #1d3557;
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .school-subtitle {
+            margin: 3px 0;
+            color: #0a8a43;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .school-address {
+            margin: 3px 0 0 0;
+            font-size: 13px;
+            color: #333;
+        }
+
+        /* =========================
+           RESULT TITLE
+        ========================= */
+
+        .result-title {
+            text-align: center;
+            margin: 15px 0 20px 0;
+        }
+
+        .result-title h2 {
+            display: inline-block;
+            margin: 0;
+            padding: 7px 25px;
+            border: 2px solid #0a8a43;
+            border-radius: 6px;
+            color: #0a8a43;
+            font-size: 21px;
+        }
+
+        /* =========================
+           STUDENT INFORMATION
+        ========================= */
+
+        .student-info {
+            border: 1px solid #333;
+            margin-bottom: 20px;
+        }
+
+        .student-info-title {
+            background: #1d3557;
+            color: #fff;
+            text-align: center;
+            padding: 7px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .student-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .info-item {
+            display: flex;
+            min-height: 42px;
+            border-top: 1px solid #aaa;
+        }
+
+        .info-item:nth-child(odd) {
+            border-right: 1px solid #aaa;
+        }
+
+        .info-label {
+            min-width: 125px;
+            padding: 8px;
+            background: #f1f3f5;
+            font-weight: 700;
+        }
+
+        .info-value {
+            flex: 1;
+            padding: 8px;
+            font-weight: 600;
+        }
+
+        /* =========================
+           SUBJECT RESULT TABLE
+        ========================= */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        .subject-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        .subject-table th,
+        .subject-table td {
+            border: 1px solid #222;
+            padding: 8px 6px;
+            text-align: center;
+        }
+
+        .subject-table th {
+            background: #e2f0d9;
+            color: #111;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .subject-table td {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .subject-table td:first-child {
+            text-align: left;
+            padding-left: 10px;
+        }
+
+        .pass {
+            color: #087f23;
+            font-weight: 800;
+        }
+
+        .fail {
+            color: #c62828;
+            font-weight: 800;
+        }
+
+        /* =========================
+           RESULT SUMMARY
+        ========================= */
+
+        .summary-section {
+            margin-top: 20px;
+            border: 2px solid #0a8a43;
+            padding: 15px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .summary-box {
+            border: 1px solid #aaa;
+            padding: 10px;
+            text-align: center;
+            background: #f8f9fa;
+        }
+
+        .summary-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .summary-value {
+            display: block;
+            font-size: 18px;
+            font-weight: 800;
+            color: #1d3557;
+        }
+
+        /* =========================
+           FINAL GPA
+        ========================= */
+
+        .final-gpa-box {
+            margin: 25px auto 15px auto;
+            max-width: 500px;
+            text-align: center;
+            border: 3px double #0a8a43;
+            padding: 15px;
+            background: #f1f8f3;
+        }
+
+        .final-gpa-box .gpa-label {
+            font-size: 18px;
+            font-weight: 800;
+            color: #1d3557;
+        }
+
+        .final-gpa-box .gpa-value {
+            margin-top: 5px;
+            font-size: 32px;
+            font-weight: 900;
+            color: #0a8a43;
+        }
+
+        /* =========================
+           SIGNATURES
+        ========================= */
+
+        .signature-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 60px;
+            gap: 40px;
+        }
+
+        .signature-box {
+            width: 240px;
+            text-align: center;
+        }
+
+        .signature-line {
+            border-top: 1px solid #222;
+            margin-bottom: 7px;
+        }
+
+        .signature-title {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .result-footer {
+            margin-top: 30px;
+            padding-top: 10px;
+            border-top: 1px solid #aaa;
+            text-align: center;
+            font-size: 11px;
+            color: #555;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media screen and (max-width: 768px) {
+
+            body {
+                padding: 8px;
+            }
+
+            .result-sheet {
+                padding: 12px;
+            }
+
+            .details-actions {
+                justify-content: stretch;
+                flex-wrap: wrap;
+            }
+
+            .details-actions button {
+                flex: 1;
+                min-width: 100px;
+            }
+
+            .school-logo {
+                width: 65px;
+                height: 65px;
+            }
+
+            .school-name {
+                font-size: 24px;
+            }
+
+            .student-info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-item:nth-child(odd) {
+                border-right: none;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .signature-section {
+                margin-top: 45px;
+            }
+
+            .signature-box {
+                width: 45%;
+            }
+        }
+
+        @media screen and (max-width: 399px) {
+
+            body {
+                padding: 5px;
+            }
+
+            .result-sheet {
+                padding: 8px;
+            }
+
+            .details-actions {
+                gap: 5px;
+            }
+
+            .details-actions button {
+                padding: 8px 5px;
+                font-size: 13px;
+            }
+
+            .school-logo {
+                width: 55px;
+                height: 55px;
+            }
+
+            .school-name {
+                font-size: 20px;
+            }
+
+            .school-subtitle {
+                font-size: 12px;
+            }
+
+            .school-address {
+                font-size: 11px;
+            }
+
+            .result-title h2 {
+                font-size: 17px;
+                padding: 5px 12px;
+            }
+
+            .info-label {
+                min-width: 95px;
+                font-size: 12px;
+            }
+
+            .info-value {
+                font-size: 12px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .final-gpa-box .gpa-value {
+                font-size: 27px;
+            }
+
+            .signature-section {
+                gap: 15px;
+                margin-top: 40px;
+            }
+
+            .signature-title {
+                font-size: 11px;
+            }
+        }
+
+        /* =========================
+           PRINT
+        ========================= */
+
+        @media print {
+
+            @page {
+                size: A4 portrait;
+                margin: 12mm;
+            }
+
+            html,
+            body {
+                background: #fff;
+                padding: 0;
+                margin: 0;
+            }
+
+            .details-actions {
+                display: none !important;
+            }
+
+            .result-sheet {
+                max-width: none;
+                width: 100%;
+                border: none;
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+            }
+
+            .school-header,
+            .student-info,
+            .table-wrapper,
+            .summary-section,
+            .final-gpa-box,
+            .signature-section {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .subject-table {
+                min-width: 0;
+            }
+
+            .result-footer {
+                margin-top: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ACTION BUTTONS -->
+    <div class="details-actions">
+
+        <button
+            type="button"
+            class="btn-back"
+            onclick="goBackToResult()">
+            ← ফিরে যান
+        </button>
+
+        <button
+            type="button"
+            class="btn-pdf"
+            onclick="downloadDetailsPDF()">
+            PDF
+        </button>
+
+        <button
+            type="button"
+            class="btn-print"
+            onclick="printDetails()">
+            Print
+        </button>
+
+    </div>
+
+
+    <!-- RESULT SHEET -->
+    <main class="result-sheet" id="resultDetailsSheet">
+
+        <!-- SCHOOL HEADER -->
+        <header class="school-header">
+
+            <img
+                src="image/logo2.jpg"
+                alt="Learning School Logo"
+                class="school-logo">
+
+            <h1 class="school-name">
+                লার্নিং স্কুল
+            </h1>
+
+            <p class="school-subtitle">
+                স্থাপিত: ২০১৮ইং
+            </p>
+
+            <p class="school-address">
+                ছত্রিশ, ফেঞ্চুগঞ্জ, সিলেট।
+            </p>
+
+        </header>
+
+
+        <!-- RESULT TITLE -->
+        <div class="result-title">
+            <h2 id="resultTitle">
+                শিক্ষার্থীর ফলাফল
+            </h2>
+        </div>
+
+
+        <!-- STUDENT INFORMATION -->
+        <section class="student-info">
+
+            <div class="student-info-title">
+                শিক্ষার্থীর তথ্য
+            </div>
+
+            <div
+                class="student-info-grid"
+                id="studentInfoGrid">
+            </div>
+
+        </section>
+
+
+        <!-- SUBJECT RESULT -->
+        <section>
+
+            <div class="table-wrapper">
+
+                <table class="subject-table">
+
+                    <thead>
+                        <tr>
+                            <th>বিষয়</th>
+                            <th>পূর্ণমান</th>
+                            <th>প্রাপ্ত নম্বর</th>
+                            <th>গ্রেড</th>
+                            <th>GPA</th>
+                            <th>মূল্যায়ন</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="subjectResultBody">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- RESULT SUMMARY -->
+        <section class="summary-section">
+
+            <div class="summary-grid">
+
+                <div class="summary-box">
+                    <span class="summary-label">
+                        মোট নম্বর
+                    </span>
+
+                    <span
+                        class="summary-value"
+                        id="summaryTotalMarks">
+                        —
+                    </span>
+                </div>
+
+
+                <div class="summary-box">
+                    <span class="summary-label">
+                        উপস্থিতি
+                    </span>
+
+                    <span
+                        class="summary-value"
+                        id="summaryAttendance">
+                        —
+                    </span>
+                </div>
+
+
+                <div class="summary-box">
+                    <span class="summary-label">
+                        মেধা স্থান
+                    </span>
+
+                    <span
+                        class="summary-value"
+                        id="summaryRank">
+                        —
+                    </span>
+                </div>
+
+
+                <div class="summary-box">
+                    <span class="summary-label">
+                        অবস্থা
+                    </span>
+
+                    <span
+                        class="summary-value"
+                        id="summaryStatus">
+                        —
+                    </span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FINAL / AVERAGE GPA -->
+        <section class="final-gpa-box">
+
+            <div class="gpa-label">
+                মোট GPA / গড় GPA
+            </div>
+
+            <div
+                class="gpa-value"
+                id="finalGpa">
+                —
+            </div>
+
+        </section>
+
+
+        <!-- SIGNATURES -->
+        <section class="signature-section">
+
+            <div class="signature-box">
+
+                <div class="signature-line"></div>
+
+                <div class="signature-title">
+                    শ্রেণি শিক্ষকের স্বাক্ষর
+                </div>
+
+            </div>
+
+
+            <div class="signature-box">
+
+                <div class="signature-line"></div>
+
+                <div class="signature-title">
+                    প্রধান শিক্ষকের স্বাক্ষর
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer class="result-footer">
+
+            লার্নিং স্কুল — শিক্ষার্থীর ফলাফল বিবরণী
+
+        </footer>
+
+    </main>
+
+
+    <script>
+
+        let detailsContext = null;
+        let detailsStudent = null;
+        let detailsTermData = null;
+
+
+        /* =========================
+           LOAD CONTEXT
+        ========================= */
+
+        function loadResultDetails() {
+
+            const savedContext =
+                sessionStorage.getItem(
+                    'ls_result_details_context'
+                );
+
+            if (!savedContext) {
+
+                showNoDataMessage(
+                    'ফলাফলের তথ্য পাওয়া যায়নি।'
+                );
+
+                return;
+            }
+
+
+            try {
+
+                detailsContext =
+                    JSON.parse(savedContext);
+
+            } catch (error) {
+
+                showNoDataMessage(
+                    'ফলাফলের তথ্য সঠিক নয়।'
+                );
+
+                return;
+            }
+
+
+            const databaseRaw =
+                localStorage.getItem(
+                    'ls_school_data'
+                );
+
+
+            if (!databaseRaw) {
+
+                showNoDataMessage(
+                    'ফলাফলের ডাটাবেজ পাওয়া যায়নি।'
+                );
+
+                return;
+            }
+
+
+            let schoolDatabase;
+
+            try {
+
+                schoolDatabase =
+                    JSON.parse(databaseRaw);
+
+            } catch (error) {
+
+                showNoDataMessage(
+                    'ডাটাবেজ পড়া যাচ্ছে না।'
+                );
+
+                return;
+            }
+
+
+            const classData =
+                schoolDatabase[
+                    detailsContext.classKey
+                ];
+
+
+            if (
+                !classData ||
+                !Array.isArray(classData.students)
+            ) {
+
+                showNoDataMessage(
+                    'শ্রেণির ফলাফলের তথ্য পাওয়া যায়নি।'
+                );
+
+                return;
+            }
+
+
+            detailsStudent =
+                classData.students[
+                    Number(detailsContext.studentIndex)
+                ];
+
+
+            if (!detailsStudent) {
+
+                showNoDataMessage(
+                    'নির্বাচিত শিক্ষার্থীর তথ্য পাওয়া যায়নি।'
+                );
+
+                return;
+            }
+
+
+            detailsTermData =
+                detailsStudent.terms?.[
+                    detailsContext.term
+                ];
+
+
+            if (!detailsTermData) {
+
+                showNoDataMessage(
+                    'এই পরীক্ষার ফলাফল পাওয়া যায়নি।'
+                );
+
+                return;
+            }
+
+
+            renderDetails(
+                classData,
+                detailsStudent,
+                detailsTermData
+            );
+        }
+
+
+        /* =========================
+           RENDER DETAILS
+        ========================= */
+
+        function renderDetails(
+            classData,
+            student,
+            termData
+        ) {
+
+            const term =
+                detailsContext.term;
+
+
+            const termName =
+                term === "1"
+                    ? "১ম প্রান্তিক পরীক্ষা"
+                    : term === "2"
+                        ? "২য় প্রান্তিক পরীক্ষা"
+                        : "৩য় প্রান্তিক / বার্ষিক পরীক্ষা";
+
+
+            document.getElementById(
+                'resultTitle'
+            ).textContent =
+                termName;
+
+
+            const infoGrid =
+                document.getElementById(
+                    'studentInfoGrid'
+                );
+
+
+            infoGrid.innerHTML = "";
+
+
+            addInfoItem(
+                infoGrid,
+                'শিক্ষার্থীর নাম',
+                student.name
+            );
+
+
+            addInfoItem(
+                infoGrid,
+                'রোল নম্বর',
+                getStudentRoll(student)
+            );
+
+
+            addInfoItem(
+                infoGrid,
+                'শ্রেণি',
+                classData.className ||
+                getClassNameFromKey(
+                    detailsContext.classKey
+                )
+            );
+
+
+            addInfoItem(
+                infoGrid,
+                'সেশন',
+                classData.sessionYear ||
+                getSessionFromKey(
+                    detailsContext.classKey
+                )
+            );
+
+
+            /*
+             * Student ID শুধুমাত্র তখনই দেখানো হবে
+             * যখন student object-এ প্রকৃত studentId
+             * field পাওয়া যাবে।
+             *
+             * internal numeric "id" ব্যবহার করা হবে না।
+             */
+
+            const actualStudentId =
+                student.studentId ??
+                student.studentID ??
+                student.student_id ??
+                student.studentCode ??
+                student.studentNumber;
+
+
+            if (
+                actualStudentId !== undefined &&
+                actualStudentId !== null &&
+                String(actualStudentId).trim() !== ""
+            ) {
+
+                addInfoItem(
+                    infoGrid,
+                    'Student ID',
+                    actualStudentId
+                );
+            }
+
+
+            /* SUBJECT RESULTS */
+
+            const tbody =
+                document.getElementById(
+                    'subjectResultBody'
+                );
+
+
+            tbody.innerHTML = "";
+
+
+            const subResults =
+                Array.isArray(termData.subResults)
+                    ? termData.subResults
+                    : [];
+
+
+            if (subResults.length === 0) {
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6">
+                            বিষয়ভিত্তিক ফলাফলের তথ্য পাওয়া যায়নি।
+                        </td>
+                    </tr>
+                `;
+
+            } else {
+
+                subResults.forEach(
+                    function(subject) {
+
+                        const row =
+                            document.createElement('tr');
+
+
+                        const statusClass =
+                            String(subject.grade)
+                                .toUpperCase() === 'F'
+                                ? 'fail'
+                                : 'pass';
+
+
+                        row.innerHTML = `
+                            <td>
+                                ${safeText(subject.name)}
+                            </td>
+
+                            <td>
+                                ${safeText(subject.fullMark)}
+                            </td>
+
+                            <td>
+                                ${safeText(subject.mark)}
+                            </td>
+
+                            <td class="${statusClass}">
+                                ${safeText(subject.grade)}
+                            </td>
+
+                            <td>
+                                ${safeText(subject.gp)}
+                            </td>
+
+                            <td>
+                                ${safeText(subject.eval)}
+                            </td>
+                        `;
+
+
+                        tbody.appendChild(row);
+                    }
+                );
+            }
+
+
+            /* SUMMARY */
+
+            document.getElementById(
+                'summaryTotalMarks'
+            ).textContent =
+                term === "3"
+                    ? (
+                        termData.annualTotalWeighted ??
+                        termData.totalMarks ??
+                        "—"
+                    )
+                    : (
+                        termData.totalMarks ??
+                        "—"
+                    );
+
+
+            document.getElementById(
+                'summaryAttendance'
+            ).textContent =
+                termData.attendance !== undefined
+                    ? `${termData.attendance}%`
+                    : "—";
+
+
+            document.getElementById(
+                'summaryRank'
+            ).textContent =
+                termData.rank !== undefined
+                    ? `${termData.rank}ম`
+                    : "—";
+
+
+            const statusElement =
+                document.getElementById(
+                    'summaryStatus'
+                );
+
+
+            statusElement.textContent =
+                termData.status || "—";
+
+
+            statusElement.style.color =
+                termData.status === "পাশ"
+                    ? "#087f23"
+                    : termData.status === "ফেল"
+                        ? "#c62828"
+                        : "#1d3557";
+
+
+            /*
+             * বর্তমান term-এর GPA-কে প্রধান GPA হিসেবে দেখানো হচ্ছে।
+             *
+             * ৩য়/বার্ষিক ফলাফলে annual GPA না থাকলে
+             * available GPA ব্যবহার করা হবে।
+             */
+
+            document.getElementById(
+                'finalGpa'
+            ).textContent =
+                termData.gpa ?? "—";
+        }
+
+
+        /* =========================
+           ADD INFO ITEM
+        ========================= */
+
+        function addInfoItem(
+            container,
+            label,
+            value
+        ) {
+
+            if (
+                value === undefined ||
+                value === null ||
+                String(value).trim() === ""
+            ) {
+                return;
+            }
+
+
+            const item =
+                document.createElement('div');
+
+            item.className =
+                'info-item';
+
+
+            item.innerHTML = `
+                <div class="info-label">
+                    ${safeText(label)}
+                </div>
+
+                <div class="info-value">
+                    ${safeText(value)}
+                </div>
+            `;
+
+
+            container.appendChild(item);
+        }
+
+
+        /* =========================
+           ROLL FINDER
+        ========================= */
+
+        function getStudentRoll(student) {
+
+            const possibleRolls = [
+                student.roll,
+                student.rollNumber,
+                student.studentRoll,
+                student.rollNo
+            ];
+
+
+            for (
+                const roll of possibleRolls
+            ) {
+
+                if (
+                    roll !== undefined &&
+                    roll !== null &&
+                    String(roll).trim() !== ""
+                ) {
+
+                    return roll;
+                }
+            }
+
+
+            /*
+             * বর্তমান result system-এ আলাদা roll field
+             * না থাকলে array position থেকে roll তৈরি করা হবে না,
+             * কারণ Details page-এ ভুল তথ্য দেখানো উচিত নয়।
+             */
+
+            return null;
+        }
+
+
+        /* =========================
+           CLASS / SESSION FALLBACK
+        ========================= */
+
+        function getClassNameFromKey(
+            classKey
+        ) {
+
+            const parts =
+                String(classKey).split('_');
+
+
+            return parts.length > 0
+                ? parts[0]
+                : null;
+        }
+
+
+        function getSessionFromKey(
+            classKey
+        ) {
+
+            const parts =
+                String(classKey).split('_');
+
+
+            return parts.length > 1
+                ? parts.slice(1).join('_')
+                : null;
+        }
+
+
+        /* =========================
+           SAFE TEXT
+        ========================= */
+
+        function safeText(value) {
+
+            if (
+                value === undefined ||
+                value === null
+            ) {
+                return "";
+            }
+
+
+            return String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+
+        /* =========================
+           NO DATA
+        ========================= */
+
+        function showNoDataMessage(
+            message
+        ) {
+
+            document.getElementById(
+                'resultDetailsSheet'
+            ).innerHTML = `
+                <div style="
+                    text-align:center;
+                    padding:60px 20px;
+                    font-weight:700;
+                    color:#c62828;
+                    font-size:18px;
+                ">
+                    ${safeText(message)}
+                </div>
+            `;
+        }
+
+
+        /* =========================
+           BACK
+        ========================= */
+
+        function goBackToResult() {
+
+            window.history.back();
+        }
+
+
+        /* =========================
+           PRINT
+        ========================= */
+
+        function printDetails() {
+
+            window.print();
+        }
+
+
+        /* =========================
+           PDF
+        ========================= */
+
+        function downloadDetailsPDF() {
+
+            /*
+             * Browser-এর native print-to-PDF ব্যবহার করা হবে।
+             * এতে content কেটে যাওয়ার সম্ভাবনা কম থাকে এবং
+             * প্রয়োজন হলে একাধিক A4 page তৈরি হতে পারে।
+             */
+
+            window.print();
+        }
+
+
+        /* =========================
+           START
+        ========================= */
+
+        window.addEventListener(
+            'DOMContentLoaded',
+            loadResultDetails
+        );
+
+    </script>
+
+</body>
+</html>

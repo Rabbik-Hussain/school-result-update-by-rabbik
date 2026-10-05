@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>টিচার পোর্টাল - লগইন ও রেজিস্ট্রেশন</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome CDN for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts (Noto Sans Bengali) -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans Bengali', sans-serif;
+      background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #311042 100%);
+      min-height: 100vh;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #6366f1;
+      border-radius: 4px;
+    }
+
+    /* ================= RESPONSIVE CSS BREAKPOINTS ================= */
+    /* 1. Extra Small Screens (< 400px) */
+    @media (max-width: 399.98px) {
+      body {
+        padding: 0.75rem 0.5rem !important;
+      }
+      .glass-card {
+        padding: 1.25rem 1rem !important;
+        border-radius: 1rem !important;
+      }
+      /* grid-cols-2 ভেঙে সিঙ্গেল কলাম হবে যাতে ছোট স্ক্রিনে চাপাচাপি না হয় */
+      .grid-cols-2 {
+        grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+      }
+      h2 {
+        font-size: 1.25rem !important;
+      }
+      input, select, button {
+        font-size: 0.8125rem !important;
+      }
+    }
+
+    /* 2. Small Screens (400px to 767px) */
+    @media (min-width: 400px) and (max-width: 767.98px) {
+      .glass-card {
+        padding: 1.5rem 1.25rem !important;
+      }
+    }
+
+    /* 3. Medium Screens / Tablets (768px to 991px) */
+    @media (min-width: 768px) and (max-width: 991.98px) {
+      .w-full.max-w-md {
+        max-width: 28rem !important; /* ট্যাবলেট স্ক্রিনে পারফেক্ট সাইজ */
+      }
+      .glass-card {
+        padding: 2rem !important;
+      }
+    }
+
+    /* 4. Large Screens / Desktops (>= 992px) */
+    @media (min-width: 992px) {
+      .w-full.max-w-md {
+        max-width: 30rem !important; /* ডেস্কটপে সুন্দর ভিজ্যুয়াল ব্যালেন্স */
+      }
+      .glass-card {
+        padding: 2.25rem !important;
+      }
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center p-4 min-h-screen">
+
+  <div class="w-full max-w-md my-8">
+    
+    <!-- ==================== 1. LOGIN FORM ==================== -->
+    <div id="loginSection" class="glass-card rounded-2xl shadow-2xl p-6 md:p-8 transition-all duration-300">
+      <div class="text-center mb-6">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 text-indigo-600 rounded-full mb-3 text-2xl shadow-inner">
+          <i class="fa-solid fa-user-tie"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800">লগইন</h2>
+        <p class="text-sm text-gray-500 mt-1">আপনার অ্যাকাউন্টে প্রবেশ করতে আইডি ও পাসওয়ার্ড দিন</p>
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-4">
+        <!-- Director ID / Teacher ID Input -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">ডাইরেক্টর আইডি / টিচার আইডি</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400">
+              <i class="fa-solid fa-id-card"></i>
+            </span>
+            <input type="text" id="loginTeacherId" required placeholder="Direc123 / Teach123"
+              class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+          </div>
+        </div>
+
+        <!-- Password Input -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">পাসওয়ার্ড</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400">
+              <i class="fa-solid fa-lock"></i>
+            </span>
+            <input type="password" id="loginPassword" required placeholder="Keep it private."
+              class="w-full pl-10 pr-10 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+            <button type="button" onclick="togglePasswordVisibility('loginPassword', 'loginPassIcon')" 
+              class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-gray-500 hover:text-indigo-600 focus:outline-none">
+              <i id="loginPassIcon" class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Forgot Password Link -->
+        <div class="flex justify-end">
+          <button type="button" onclick="switchTab('forgot')" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition">
+            Forgot Password? (পাসওয়ার্ড ভুলে গেছেন?)
+          </button>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="pt-2 flex flex-col gap-3">
+          <button type="submit" 
+            class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition duration-200">
+            <i class="fa-solid fa-right-to-bracket mr-2"></i> লগইন করুন
+          </button>
+        </div>
+      </form>
+
+      <!-- Bottom Sign up trigger -->
+      <div class="mt-6 pt-4 border-t border-gray-200 text-center text-sm text-gray-600">
+        Not a member? 
+        <button onclick="switchTab('signup')" class="font-bold text-indigo-600 hover:underline ml-1">
+          Sign up now
+        </button>
+      </div>
+    </div>
+
+
+    <!-- ==================== 2. FORGOT PASSWORD FORM ==================== -->
+    <div id="forgotSection" class="glass-card rounded-2xl shadow-2xl p-6 md:p-8 transition-all duration-300 hidden">
+      <div class="text-center mb-6">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-amber-100 text-amber-600 rounded-full mb-3 text-2xl">
+          <i class="fa-solid fa-key"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800">পাসওয়ার্ড পুনর্দ্ধার</h2>
+        <p class="text-sm text-gray-500 mt-1">আপনার ডাইরেক্টর আইডি / টিচার আইডি এবং রেজিস্ট্রেশনের সময় দেয়া হিন্টস দিন</p>
+      </div>
+
+      <form id="forgotForm" onsubmit="handleForgotPassword(event)" class="space-y-4">
+        <!-- Director ID / Teacher ID -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">ডাইরেক্টর আইডি / টিচার আইডি</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400">
+              <i class="fa-solid fa-id-card"></i>
+            </span>
+            <input type="text" id="forgotTeacherId" required placeholder="ডাইরেক্টর আইডি / টিচার আইডি দিন"
+              class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+          </div>
+        </div>
+
+        <!-- Password Hint / Clue -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">Enter Password Hints / Clue</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400">
+              <i class="fa-solid fa-lightbulb"></i>
+            </span>
+            <input type="text" id="forgotHint" required placeholder="রেজিস্ট্রেশনের সময় দেয়া ক্লু"
+              class="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+          </div>
+        </div>
+
+        <!-- New Password -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">New Password</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400">
+              <i class="fa-solid fa-lock"></i>
+            </span>
+            <input type="password" id="forgotNewPassword" required minlength="6" placeholder="নতুন পাসওয়ার্ড দিন (সর্বনিম্ন ৬ অক্ষর)"
+              class="w-full pl-10 pr-10 py-2.5 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none">
+            <button type="button" onclick="togglePasswordVisibility('forgotNewPassword', 'forgotPassIcon')" 
+              class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-gray-500 hover:text-indigo-600">
+              <i id="forgotPassIcon" class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-3 bg-amber-600 hover:bg-amber-700 text-white font-semibold rounded-lg shadow-md transition duration-200">
+          <i class="fa-solid fa-rotate-right mr-2"></i> পাসওয়ার্ড আপডেট করুন
+        </button>
+      </form>
+
+      <div class="mt-6 text-center">
+        <button onclick="switchTab('login')" class="inline-flex items-center text-sm font-semibold text-indigo-600 hover:text-indigo-800">
+          <i class="fa-solid fa-arrow-left mr-2"></i> Back to Login
+        </button>
+      </div>
+    </div>
+
+
+    <!-- ==================== 3. REGISTRATION FORM ==================== -->
+    <div id="signupSection" class="glass-card rounded-2xl shadow-2xl p-6 md:p-8 transition-all duration-300 hidden">
+      <div class="text-center mb-6">
+        <div class="inline-flex items-center justify-center w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full mb-2 text-2xl">
+          <i class="fa-solid fa-user-plus"></i>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-800">নতুন রেজিস্ট্রেশন</h2>
+        <p class="text-sm text-gray-500 mt-1">তথ্যসমূহ পূরণ করে অ্যাকাউন্ট তৈরি করুন</p>
+      </div>
+
+      <form id="signupForm" onsubmit="handleRegistration(event)" class="space-y-4">
+        
+        <!-- Profile Picture Upload -->
+        <div class="flex flex-col items-center mb-4">
+          <label class="block text-xs font-semibold text-gray-600 mb-2">প্রোফাইল ছবি নির্বাচন করুন</label>
+          <div class="relative group">
+            <div style="width: 100px; height: 100px; border-radius: 50%; border: 3px solid #6366f1;" 
+                 class="overflow-hidden bg-indigo-50 flex items-center justify-center shadow-md relative">
+              
+              <span id="profilePlaceholder" class="text-xs font-medium text-indigo-400 select-none text-center px-2">
+                Photo
+              </span>
+              
+              <img id="profilePreview" src="" alt="Profile" class="w-full h-full object-cover hidden">
+            </div>
+            <label for="profileImageInput" class="absolute bottom-0 right-0 bg-indigo-600 text-white p-2 rounded-full cursor-pointer shadow-lg hover:bg-indigo-700 transition">
+              <i class="fa-solid fa-camera text-xs"></i>
+            </label>
+            <input type="file" id="profileImageInput" accept="image/*" class="hidden" onchange="previewProfileImage(event)">
+          </div>
+          <span class="text-[11px] text-gray-400 mt-1">( Choose File )</span>
+        </div>
+
+        <!-- Director ID / Teacher ID Field -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">ডাইরেক্টর আইডি / টিচার আইডি</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400">
+              <i class="fa-solid fa-id-badge"></i>
+            </span>
+            <input type="text" id="regTeacherId" required placeholder="Direc123 / Teach123"
+              class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
+          </div>
+        </div>
+
+        <!-- First Name & Last Name -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">ফার্স্ট নেম</label>
+            <input type="text" id="firstName" required placeholder="Md.Rabbik"
+              class="w-full px-3 py-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">লাস্ট নেম</label>
+            <input type="text" id="lastName" required placeholder="Hussain"
+              class="w-full px-3 py-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
+          </div>
+        </div>
+
+        <!-- Designation Selection -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">পদবি (Designation)</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400">
+              <i class="fa-solid fa-briefcase"></i>
+            </span>
+            <select id="designation" required onchange="handleDesignationChange(this.value)"
+              class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm appearance-none">
+              <option value="" disabled selected>পদবি নির্বাচন করুন</option>
+
+              <!-- Director -->
+              <option value="পরিচালক (Director)">পরিচালক (Director)</option>
+
+              <!-- Existing Teacher Designations -->
+              <option value="প্রধান শিক্ষক (Head Teacher)">প্রধান শিক্ষক (Head Teacher)</option>
+              <option value="সহকারী শিক্ষক (Assistant Teacher)">সহকারী শিক্ষক (Assistant Teacher)</option>
+              <option value="শ্রেণী শিক্ষক (Class Teacher)">শ্রেণী শিক্ষক (Class Teacher)</option>
+            </select>
+            <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-400">
+              <i class="fa-solid fa-chevron-down text-xs"></i>
+            </span>
+          </div>
+        </div>
+
+        <!-- Dynamic Class Selector -->
+        <div id="classSelectorBox" class="hidden transition-all duration-300 bg-indigo-50 p-3 rounded-lg border border-indigo-200">
+          <label class="block text-sm font-semibold text-indigo-900 mb-1">
+            <i class="fa-solid fa-chalkboard-user mr-1"></i> কোন শ্রেণীর শিক্ষক? (শ্রেণী নির্বাচন করুন)
+          </label>
+          <div class="relative">
+            <select id="classNameSelect"
+              class="w-full px-3 py-2 bg-white border border-indigo-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
+              <option value="" disabled selected>শ্রেণী সিলেক্ট করুন...</option>
+              <option value="প্লে (Play)">প্লে (Play)</option>
+              <option value="নার্সারি (Nursery)">নার্সারি (Nursery)</option>
+              <option value="ওয়ান (One)">ওয়ান (One)</option>
+              <option value="টু (Two)">টু (Two)</option>
+              <option value="থ্রি (Three)">থ্রি (Three)</option>
+              <option value="ফোর (Four)">ফোর (Four)</option>
+              <option value="ফাইভ (Five)">ফাইভ (Five)</option>
+            </select>
+          </div>
+        </div>
+
+
+        <!-- Dynamic Director Type Selector -->
+<div id="directorTypeSelectorBox" class="hidden transition-all duration-300 bg-indigo-50 p-3 rounded-lg border border-indigo-200">
+  <label class="block text-sm font-semibold text-indigo-900 mb-1">
+    <i class="fa-solid fa-user-tie mr-1"></i> পরিচালকের পদ নির্বাচন করুন
+  </label>
+
+  <div class="relative">
+    <select id="directorTypeSelect"
+      class="w-full px-3 py-2 bg-white border border-indigo-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
+      <option value="" disabled selected>পদ নির্বাচন করুন...</option>
+      <option value="ম্যানেজিং ডাইরেক্টর (M.D)">ম্যানেজিং ডাইরেক্টর (M.D)</option>
+      <option value="ডেপুটি ম্যানেজিং ডাইরেক্টর (D.M.D)">ডেপুটি ম্যানেজিং ডাইরেক্টর (D.M.D)</option>
+      <option value="কার্যনির্বাহী পরিচালক (Executive Director)">কার্যনির্বাহী পরিচালক (Executive Director)</option>
+      <option value="অর্থপরিচালক (Finance Director)">অর্থপরিচালক (Finance Director)</option>
+      <option value="সদস্য পরিচালক (Director)">সদস্য পরিচালক (Director)</option>
+    </select>
+  </div>
+</div>
+
+        <!-- Password & Retry Password -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">পাসওয়ার্ড</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400">
+              <i class="fa-solid fa-lock"></i>
+            </span>
+            <input type="password" id="regPassword" required minlength="6" placeholder="পাসওয়ার্ড দিন (সর্বনিম্ন ৬ অক্ষর)"
+              class="w-full pl-10 pr-10 py-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
+            <button type="button" onclick="togglePasswordVisibility('regPassword', 'regPassIcon')" 
+              class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-gray-500 hover:text-indigo-600">
+              <i id="regPassIcon" class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">পুনরায় পাসওয়ার্ড (Retry Password)</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400">
+              <i class="fa-solid fa-shield-halved"></i>
+            </span>
+            <input type="password" id="retryPassword" required minlength="6" placeholder="একই পাসওয়ার্ড দিন"
+              class="w-full pl-10 pr-10 py-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
+            <button type="button" onclick="togglePasswordVisibility('retryPassword', 'retryPassIcon')" 
+              class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-gray-500 hover:text-indigo-600">
+              <i id="retryPassIcon" class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Signature Upload -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">স্বাক্ষর ব্রাউজ করুন (Signature Upload)</label>
+          <input type="file" id="sigFileInput" accept="image/*"
+            class="block w-full text-xs text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100 border border-gray-300 rounded-lg cursor-pointer">
+        </div>
+
+        <!-- Password Hints / Clue Input -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">পাসওয়ার্ড হিন্টস / সিক্রেট ক্লু (Hints)</label>
+          <div class="relative">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-gray-400">
+              <i class="fa-regular fa-lightbulb"></i>
+            </span>
+            <input type="text" id="regHint" required placeholder="পাসওয়ার্ড ভুলে গেলে যা দিয়ে রিকভার করবেন"
+              class="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-sm">
+          </div>
+        </div>
+
+        <!-- Gender Selection -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">লিঙ্গ (Gender)</label>
+          <div class="flex items-center space-x-6 py-1">
+            <label class="inline-flex items-center cursor-pointer">
+              <input type="radio" name="gender" value="Male" checked class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
+              <span class="ml-2 text-sm text-gray-700 font-medium">Male (পুরুষ)</span>
+            </label>
+            <label class="inline-flex items-center cursor-pointer">
+              <input type="radio" name="gender" value="Female" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
+              <span class="ml-2 text-sm text-gray-700 font-medium">Female (মহিলা)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Terms and Conditions Checkbox -->
+        <div class="flex items-center">
+          <input id="termsCheckbox" type="checkbox" required class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+          <label for="termsCheckbox" class="ml-2 text-xs font-medium text-gray-600">
+            I agree with <a href="#" class="text-indigo-600 underline">terms and conditions</a>
+          </label>
+        </div>
+
+        <!-- Register Button -->
+        <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition duration-200">
+          <i class="fa-solid fa-user-check mr-2"></i> Register করুন
+        </button>
+      </form>
+
+      <!-- Already Have Account Trigger -->
+      <div class="mt-6 pt-4 border-t border-gray-200 text-center text-sm text-gray-600">
+        Already have an account? 
+        <button onclick="switchTab('login')" class="font-bold text-indigo-600 hover:underline ml-1">
+          Login
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    // LocalStorage থেকে পূর্বের ডাটা লোড করা
+    const teachersDB = JSON.parse(localStorage.getItem('teachersDB')) || {};
+
+    let profileImageData = "";
+    let signatureImageData = "";
+
+    function switchTab(target) {
+      document.getElementById('loginSection').classList.add('hidden');
+      document.getElementById('forgotSection').classList.add('hidden');
+      document.getElementById('signupSection').classList.add('hidden');
+
+      if (target === 'login') {
+        document.getElementById('loginSection').classList.remove('hidden');
+      } else if (target === 'forgot') {
+        document.getElementById('forgotSection').classList.remove('hidden');
+      } else if (target === 'signup') {
+        document.getElementById('signupSection').classList.remove('hidden');
+      }
+    }
+
+    function togglePasswordVisibility(inputId, iconId) {
+      const input = document.getElementById(inputId);
+      const icon = document.getElementById(iconId);
+
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    }
+
+    // ইমেজ কম্প্রেস করার হেল্পার ফাংশন (LocalStorage Safe রাখার জন্য)
+    function compressImage(file, maxWidth, maxHeight, callback) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          if (width > height) {
+            if (width > maxWidth) {
+              height *= maxWidth / width;
+              width = maxWidth;
+            }
+          } else {
+            if (height > maxHeight) {
+              width *= maxHeight / height;
+              height = maxHeight;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          // Quality 0.7 দিয়ে Base64 রিটার্ন করা
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.7);
+          callback(dataUrl);
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Profile Image Preview and Compressed Data Save
+    function previewProfileImage(event) {
+      const file = event.target.files[0];
+      const preview = document.getElementById('profilePreview');
+      const placeholder = document.getElementById('profilePlaceholder');
+
+      if (file) {
+        compressImage(file, 200, 200, function(compressedData) {
+          profileImageData = compressedData;
+          preview.src = compressedData;
+          preview.classList.remove('hidden');
+          placeholder.classList.add('hidden');
+        });
+      }
+    }
+
+    // Signature File Compression & Read
+    document.getElementById('sigFileInput').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        compressImage(file, 300, 150, function(compressedData) {
+          signatureImageData = compressedData;
+        });
+      }
+    });
+
+    function handleDesignationChange(value) {
+    const classBox =
+        document.getElementById('classSelectorBox');
+
+    const classSelect =
+        document.getElementById('classNameSelect');
+
+    const directorBox =
+        document.getElementById('directorTypeSelectorBox');
+
+    const directorSelect =
+        document.getElementById('directorTypeSelect');
+
+    if (value === 'শ্রেণী শিক্ষক (Class Teacher)') {
+
+        // Class Teacher → Class Selector দেখাবে
+        classBox.classList.remove('hidden');
+        classSelect.setAttribute('required', 'required');
+
+        // Director Selector লুকাবে
+        directorBox.classList.add('hidden');
+        directorSelect.removeAttribute('required');
+        directorSelect.value = '';
+
+    } else if (value === 'পরিচালক (Director)') {
+
+        // Director → Director Type Selector দেখাবে
+        directorBox.classList.remove('hidden');
+        directorSelect.setAttribute('required', 'required');
+
+        // Class Selector লুকাবে
+        classBox.classList.add('hidden');
+        classSelect.removeAttribute('required');
+        classSelect.value = '';
+
+    } else {
+
+        // Head Teacher / Assistant Teacher
+        // দুইটি Selector-ই লুকাবে
+
+        classBox.classList.add('hidden');
+        classSelect.removeAttribute('required');
+        classSelect.value = '';
+
+        directorBox.classList.add('hidden');
+        directorSelect.removeAttribute('required');
+        directorSelect.value = '';
+    }
+}
+
+
+    function handleRegistration(e) {
+      e.preventDefault();
+      
+      const teacherId = document.getElementById('regTeacherId').value.trim();
+      const pass = document.getElementById('regPassword').value;
+      const retryPass = document.getElementById('retryPassword').value;
+      const hint = document.getElementById('regHint').value.trim();
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const designation = document.getElementById('designation').value;
+      const className =
+        designation === 'শ্রেণী শিক্ষক (Class Teacher)'
+          ? document.getElementById('classNameSelect').value
+          : 'N/A';
+
+      const directorType =
+        designation === 'পরিচালক (Director)'
+          ? document.getElementById('directorTypeSelect').value
+          : 'N/A';
+      const gender = document.querySelector('input[name="gender"]:checked').value;
+
+      // ডুপ্লিকেট আইডি চেক
+      if (teachersDB[teacherId]) {
+        alert("এই আইডিটি ইতোমধ্যে একজন সদস্য ব্যবহার করছেন! অনুগ্রহ করে অন্য একটি আইডি ব্যবহার করুন।");
+        return;
+      }
+
+      if (pass !== retryPass) {
+        alert("পাসওয়ার্ড দুটি মিলছে না! দয়া করে সঠিক পাসওয়ার্ড দিন।");
+        return;
+      }
+
+      // অবজেক্টে ডাটা সেভ
+      teachersDB[teacherId] = {
+        password: pass,
+        hint: hint,
+        name: `${firstName} ${lastName}`,
+        designation: designation,
+        className: className,
+        directorType: directorType,
+        gender: gender,
+        profileImage: profileImageData,
+        signatureImage: signatureImageData
+      };
+
+      try {
+        localStorage.setItem('teachersDB', JSON.stringify(teachersDB));
+        if (designation === 'পরিচালক (Director)') {
+          alert(`রেজিস্ট্রেশন সফল হয়েছে!\n\nআইডি: ${teacherId}\nনাম: ${firstName} ${lastName}\nপদবি: ${directorType}`);
+        } else if (designation === 'শ্রেণী শিক্ষক (Class Teacher)') {
+          alert(`রেজিস্ট্রেশন সফল হয়েছে!\n\nআইডি: ${teacherId}\nনাম: ${firstName} ${lastName}\nপদবি: ${designation}\nশ্রেণী: ${className}`);
+        } else {
+          alert(`রেজিস্ট্রেশন সফল হয়েছে!\n\nআইডি: ${teacherId}\nনাম: ${firstName} ${lastName}\nপদবি: ${designation}`);
+        }
+        
+        document.getElementById('signupForm').reset();
+        
+        // Reset Profile Preview & Variables
+        const preview = document.getElementById('profilePreview');
+        const placeholder = document.getElementById('profilePlaceholder');
+        preview.src = "";
+        preview.classList.add('hidden');
+        placeholder.classList.remove('hidden');
+        profileImageData = "";
+        signatureImageData = "";
+        
+        document.getElementById('classSelectorBox').classList.add('hidden');
+        document.getElementById('directorTypeSelectorBox').classList.add('hidden');
+        
+        switchTab('login');
+        document.getElementById('loginTeacherId').value = teacherId;
+      } catch (error) {
+        alert("ডাটা সংরক্ষণ করা সম্ভব হয়নি। ছবি বা স্বাক্ষরের ফাইল সাইজ অতিরিক্ত বড় হতে পারে।");
+      }
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const teacherId = document.getElementById('loginTeacherId').value.trim();
+      const password = document.getElementById('loginPassword').value;
+
+      const user = teachersDB[teacherId];
+
+      if (!user) {
+        alert("এই আইডিটি নিবন্ধিত নয়! আগে রেজিস্ট্রেশন করুন।");
+        return;
+      }
+
+      if (user.password === password) {
+  let loginDesignation = user.designation;
+
+if (user.designation === 'পরিচালক (Director)') {
+    loginDesignation = user.directorType || user.designation;
+} else if (user.designation === 'শ্রেণী শিক্ষক (Class Teacher)') {
+    loginDesignation =
+        `${user.designation} — ${user.className || ''}`;
+}
+
+alert(
+    `লগইন সফল হয়েছে!\n\nস্বাগতম ${user.name}\nপদবি: ${loginDesignation}`
+);
+  
+  localStorage.setItem('LS_LOGGED_IN_USER', teacherId);
+
+  window.location.href = "page.html";
+  
+} else {
+        alert("ভুল পাসওয়ার্ড! সঠিক পাসওয়ার্ড চেষ্টা করুন অথবা Forgot Password ব্যবহার করুন।");
+      }
+    }
+
+    function handleForgotPassword(e) {
+      e.preventDefault();
+      const teacherId = document.getElementById('forgotTeacherId').value.trim();
+      const hintInput = document.getElementById('forgotHint').value.trim();
+      const newPass = document.getElementById('forgotNewPassword').value;
+
+      const user = teachersDB[teacherId];
+
+      if (!user) {
+        alert("ডাইরেক্টর আইডি / টিচার আইডি পাওয়া যায়নি!");
+        return;
+      }
+
+      if (user.hint.toLowerCase() === hintInput.toLowerCase()) {
+        user.password = newPass;
+        localStorage.setItem('teachersDB', JSON.stringify(teachersDB));
+
+        alert("আপনার পাসওয়ার্ড সফলভাবে আপডেট হয়েছে! নতুন পাসওয়ার্ড দিয়ে লগইন করুন।");
+        document.getElementById('forgotForm').reset();
+        switchTab('login');
+      } else {
+        alert("আপনার দেয়া সিক্রেট ক্লু/হিন্টস সঠিক নয়! রেজিস্ট্রেশনের সময় দেওয়া ক্লু মিলিয়ে দেখুন।");
+      }
+    }
+  </script>
+</body>
+</html>

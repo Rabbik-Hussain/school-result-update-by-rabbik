@@ -1,0 +1,112 @@
+
+:root{
+    --primary-color:rgb(11,181,48);
+    --secondary-color:rgb(36,122,55,0.9);
+    --padding:0.5rem;
+    --transition: all 0.3s;
+    --border-radius: 0.6rem;
+    --font-family: "Roboto", sans-serif;
+    --box-shadow: 0.1rem 0.2rem 0.8rem rgba(205,202,202,0.5);
+}
+
+.card-r{
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    padding: var(--padding);
+}
+
+.card-r:hover{
+    color: white;
+    background-color: #1a01f5;
+    box-shadow: inset 6px 6px 12px black , -6px -6px 12px white;
+}
+
+
+h1,h2,h3,h4,h5{
+    font-family: "Italianno", cursive;
+}
+
+/* !footer start */
+
+
+.section-last__container{
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 20px;
+    margin: 15px auto;
+    max-width: 1000px;
+    width: 100%;
+    
+}
+
+.section-last__content-1{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.section-last__content-1 img{
+    max-width: 100px;
+    height: auto;
+    margin-top: 5px;
+    border: 1px solid black;
+    border-radius: var(--border-radius);
+}
+
+.section-last__content-2{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 20px;
+    margin-top: 4px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.section-last__content-2 img{
+    max-width: 100px;
+    width: 100%;
+    height: 100px;
+    border: 1.5px solid black;
+    border-radius: 50%;
+}
+
+/* footer end */
+
+
+
+@media(max-width:992px){
+
+    .section-last__container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
+
+    .section-last__content-1{
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .hr-design{
+        width: 100%;
+        border: 2px solid black;
+        margin: 10px 0;
+        margin-top: 5px;
+    }
+
+    .section-last__content-2{
+        width: 100%;
+        margin-top: 10px;
+    }
+
+}

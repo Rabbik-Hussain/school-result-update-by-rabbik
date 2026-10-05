@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>লার্নিং স্কুল</title>
+    
+    <link rel="stylesheet" href="footer.css" title="" type="" />
+    <link rel="stylesheet" href="page.css">
+      <!-- FontAwesome CDN for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- নেববার -->
+    <nav class="navbar">
+        <div class="nav-brand">
+            <div class="nav-logo-placeholder">
+                <!-- প্রয়োজনে লোগো ইমেজ পরিবর্তন করতে পারেন -->
+                <img src="image/logo2.jpg" alt="logo">
+            </div>
+            <div class="nav-title">লার্নিং স্কুল</div>
+        </div>
+        <div class="nav-menu">
+            <button class="nav-btn active" id="btn-home" onclick="showPage('home')">হোম</button>
+            <button class="nav-btn" id="btn-info" onclick="showPage('info')">ইনফরমেশন</button>
+            <button class="nav-btn btn-logout" onclick="handleLogout()">লগ আউট</button>
+        </div>
+    </nav>
+
+    <!-- মূল কন্টেন্ট কন্টেইনার -->
+    <div class="container">
+
+        <!-- কমন ইনফরমেশন কার্ড (হোম এবং ইনফরমেশন উভয় পেজেই থাকবে) -->
+        <div class="info-card">
+            <!-- নির্দিষ্ট মাপের লোগো (১০৮ x ১০৮, বর্ডার রেডিয়াস ৫০%) -->
+            <div class="info-logo">
+                <img src="image/logo2.jpg" alt="logo">
+            </div>
+            <h2>লার্নিং স্কুল</h2>
+            <div class="info-details">
+                <span>ঠিকানা: ছত্তিশ, ফেঞ্চুগঞ্জ, সিলেট</span> | 
+                <span><span class="badge">স্থাপিত: ২০১৮</span></span>
+            </div>
+        </div>
+
+        <!-- হোম পেজ কন্টেন্ট -->
+        <div id="home-page" class="page active-page">
+            <div class="cards-grid">
+                <!-- কার্ড ১: রেজাল্ট দেখুন -->
+                <div class="action-card" onclick="openResultForm()">
+                    <div class="action-card-icon">🔍</div>
+                    <h3>রেজাল্ট দেখুন</h3>
+                    <button class="btn-card">প্রবেশ করুন</button>
+                </div>
+
+                <!-- কার্ড ২: রেজাল্ট তৈরি করুন -->
+                <div class="action-card" onclick="openResultCreation()">
+                    <div class="action-card-icon">📝</div>
+                    <h3>রেজাল্ট তৈরি করুন</h3>
+                    <button class="btn-card">তৈরি করুন</button>
+                </div>
+            </div>
+
+
+           <!-- ================= RESULT ANALYSIS CARDS ================= -->
+<div class="result-analysis-cards">
+
+    <!-- ফলাফলের শতকরা হার দেখুন -->
+    <div class="percentage-result-card">
+        <h3>ফলাফলের শতকরা হার দেখুন</h3>
+
+        <button
+            type="button"
+            class="btn-percentage-result"
+            onclick="openPercentageResultForm()"
+        >
+            দেখুন
+        </button>
+    </div>
+
+
+    <!-- এ সেশনের সেরাদের সেরা -->
+    <div class="best-students-card">
+        <h3>এক নজরে সকল সেরা শিক্ষার্থী</h3>
+
+        <button
+            type="button"
+            class="btn-best-students"
+            onclick="openBestStudentsForm()"
+        >
+            দেখুন
+        </button>
+    </div>
+
+</div>
+
+            <!-- ফলাফলের শতকরা হার দেখার ফরম সেকশন -->
+            <div class="form-container" id="percentage-result-form-section">
+                <div class="form-header">
+                    <h3>ফলাফলের শতকরা হার দেখুন</h3>
+                    <button
+                        class="btn-close"
+                        type="button"
+                        onclick="closePercentageResultForm()"
+                    >
+                        &times;
+                    </button>
+                </div>
+
+                <form onsubmit="handlePercentageFormSubmit(event)">
+                    <div class="form-group">
+                        <label for="percentage-session-input">সেশন</label>
+                        <input
+                            type="text"
+                            id="percentage-session-input"
+                            class="form-control"
+                            placeholder="সেশন লিখুন"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        খুঁজুন
+                    </button>
+                </form>
+            </div>
+
+
+            <!-- ফলাফলের শতকরা হার Search Result -->
+<div
+    id="percentage-result-search-results"
+    class="result-search-results"
+>
+    <!-- ১ম/২য়/৩য় প্রান্তিকের Percentage Card এখানে তৈরি হবে -->
+</div>
+
+
+<!-- ================= এক নজরে সেরা শিক্ষার্থী Form ================= -->
+<div class="form-container" id="best-students-form-section">
+
+    <div class="form-header">
+        <h3>এক নজরে সেরা শিক্ষার্থী</h3>
+
+        <button
+            class="btn-close"
+            type="button"
+            onclick="closeBestStudentsForm()"
+        >
+            &times;
+        </button>
+    </div>
+
+    <form onsubmit="handleBestStudentsFormSubmit(event)">
+
+        <div class="form-group">
+            <label for="best-students-session-input">সেশন</label>
+
+            <input
+                type="text"
+                id="best-students-session-input"
+                class="form-control"
+                placeholder="সেশন লিখুন"
+                required
+            >
+        </div>
+
+        <button type="submit" class="btn-submit">
+            খুঁজুন
+        </button>
+
+    </form>
+
+</div>
+
+<div
+    id="best-students-search-results"
+    class="result-search-results"
+>
+    <!-- নির্বাচিত সেশনের সেরা শিক্ষার্থীদের ফলাফল এখানে তৈরি হবে -->
+</div>
+
+            <!-- রেজাল্ট দেখার ফরম সেকশন -->
+            <div class="form-container" id="result-form-section">
+                <div class="form-header">
+                    <h3>রেজাল্ট দেখুন</h3>
+                    <button class="btn-close" onclick="closeResultForm()">&times;</button>
+                </div>
+                <form onsubmit="handleFormSubmit(event)">
+                    <div class="form-group">
+                        <label for="class-input">ক্লাস</label>
+                        <input type="text" id="class-input" class="form-control" placeholder="ক্লাস লিখুন" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="session-input">সেশন</label>
+                        <input type="text" id="session-input" class="form-control" placeholder="সেশন লিখুন" required>
+                    </div>
+                    <button type="submit" class="btn-submit">খুঁজুন</button>
+                </form>
+            </div>
+
+            <!-- রেজাল্ট সার্চের ফলাফল -->
+            <div id="result-search-results" class="result-search-results">
+                <!-- ১ম/২য়/৩য় প্রান্তিকের Card এখানে তৈরি হবে -->
+            </div>
+
+        </div>
+
+        <!-- ইনফরমেশন পেজ কন্টেন্ট -->
+        <div id="info-page" class="page">
+            
+            <!-- ================= INFORMATION CARD ================= -->
+            <div
+                style="
+                    background:#ffffff;
+                    padding:30px;
+                    border-radius:14px;
+                    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+                    border:1px solid #e1e8ed;
+                    margin-bottom:30px;
+                    transition:transform 0.3s ease, box-shadow 0.3s ease;
+                "
+                onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow=' inset 5px 5px 10px #000000, -5px -5px 10px #ffffff';this.style.background='rgba(47, 3, 244,0.6)';this.style.color='#fff';this.style.fontwidth='bold'"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.08)';this.style.background='#fff';this.style.color='#000000'"
+            >
+
+                <h3>আমাদের প্রতিষ্ঠান সম্পর্কে</h3>
+
+                <p>
+                    লার্নিং স্কুল ২০১৮ সালে সিলেট জেলার ফেঞ্চুগঞ্জে প্রতিষ্ঠিত একটি আধুনিক শিক্ষা প্রতিষ্ঠান। এখানে শিক্ষার্থীদের মানসম্মত শিক্ষা প্রদানের পাশাপাশি তাদের সার্বিক বিকাশে কাজ করা হয়।
+                </p>
+
+                <br>
+
+                <h3>আমাদের লক্ষ্য ও উদ্দেশ্য</h3>
+
+                <p>
+                    আধুনিক প্রযুক্তি ও মানসম্মত শিক্ষা ব্যবস্থার মাধ্যমে শিক্ষার্থীদের সুনাগরিক হিসেবে গড়ে তোলা এবং শিক্ষার আলো সর্বত্র ছড়িয়ে দেওয়া।
+                </p>
+
+            </div>
+
+
+            <!-- ================= DIRECTOR MANAGEMENT & INFORMATION CARD ================= -->
+            <div
+                style="
+                    background:#ffffff;
+                    padding:30px;
+                    border-radius:14px;
+                    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+                    border:1px solid #e1e8ed;
+                    margin-bottom:30px;
+                    transition:transform 0.3s ease, box-shadow 0.3s ease;
+                "
+                onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.12)'"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.08)'"
+            >
+
+                <!-- ================= REMOVE DIRECTOR ================= -->
+                <div class="remove-director-section">
+
+                    <div class="remove-director-header">
+
+                        <h4>
+                            <i class="fa-solid fa-user-minus"></i>
+                            পরিচালক অপসারণ
+                        </h4>
+
+                        <button
+                            type="button"
+                            class="remove-director-open-btn"
+                            onclick="openRemoveDirectorForm()"
+                        >
+                            <i class="fa-solid fa-user-minus"></i>
+                            Remove Director
+                        </button>
+
+                    </div>
+
+
+                    <!-- Remove Director Form -->
+                    <div id="removeDirectorForm">
+
+                        <div class="remove-director-form-header">
+
+                            <h5>
+                                <i class="fa-solid fa-user-lock"></i>
+                                Remove Director
+                            </h5>
+
+                            <button
+                                type="button"
+                                class="remove-director-close-btn"
+                                onclick="closeRemoveDirectorForm()"
+                            >
+                                &times;
+                            </button>
+
+                        </div>
+
+
+                        <form
+                            class="remove-director-form"
+                            onsubmit="handleRemoveDirector(event)"
+                        >
+
+                            <!-- Director ID -->
+                            <div class="remove-director-input-group">
+
+                                <label for="removeDirectorId">
+                                    Director ID
+                                </label>
+
+                                <div class="remove-director-input-wrapper">
+
+                                    <input
+                                        type="text"
+                                        id="removeDirectorId"
+                                        placeholder="Director ID লিখুন"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Director Password -->
+                            <div class="remove-director-input-group">
+
+                                <label for="removeDirectorPassword">
+                                    Director Password
+                                </label>
+
+                                <div class="remove-director-input-wrapper">
+
+                                    <input
+                                        type="password"
+                                        id="removeDirectorPassword"
+                                        placeholder="Director Password লিখুন"
+                                        required
+                                    >
+
+                                    <button
+                                        type="button"
+                                        class="director-password-toggle"
+                                        onclick="toggleRemoveDirectorPassword()"
+                                    >
+                                        <i
+                                            id="removeDirectorPasswordIcon"
+                                            class="fa-solid fa-eye"
+                                        ></i>
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Remove Button -->
+                            <button
+                                type="submit"
+                                class="remove-director-submit-btn"
+                            >
+                                <i class="fa-solid fa-trash-can"></i>
+                                Remove Director
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= DIRECTOR INFORMATION ================= -->
+                <div class="directors-information-section">
+
+                    <h4>আমাদের পরিচালকবৃন্দ</h4>
+
+                    <div
+                        id="directorsInformationContainer"
+                        class="directors-information-grid"
+                    >
+                        <!-- Registered director cards will appear here -->
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= TEACHER MANAGEMENT & INFORMATION CARD ================= -->
+            <div
+                style="
+                    background:#ffffff;
+                    padding:30px;
+                    border-radius:14px;
+                    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+                    border:1px solid #e1e8ed;
+                    margin-bottom:30px;
+                    transition:transform 0.3s ease, box-shadow 0.3s ease;
+                "
+                onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.12)'"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.08)'"
+            >
+
+                <!-- ================= REMOVE TEACHER ================= -->
+                <div class="remove-teacher-section">
+
+                    <div class="remove-teacher-header">
+
+                        <h4>
+                            <i class="fa-solid fa-user-minus"></i>
+                            শিক্ষক অপসারণ
+                        </h4>
+
+                        <button
+                            type="button"
+                            class="remove-teacher-open-btn"
+                            onclick="openRemoveTeacherForm()"
+                        >
+                            <i class="fa-solid fa-user-minus"></i>
+                            Remove Teacher
+                        </button>
+
+                    </div>
+
+
+                    <!-- Remove Teacher Form -->
+                    <div id="removeTeacherForm">
+
+                        <div class="remove-teacher-form-header">
+
+                            <h5>
+                                <i class="fa-solid fa-user-lock"></i>
+                                Remove Teacher
+                            </h5>
+
+                            <button
+                                type="button"
+                                class="remove-teacher-close-btn"
+                                onclick="closeRemoveTeacherForm()"
+                            >
+                                &times;
+                            </button>
+
+                        </div>
+
+
+                        <form
+                            class="remove-teacher-form"
+                            onsubmit="handleRemoveTeacher(event)"
+                        >
+
+                            <!-- Teacher ID -->
+                            <div class="remove-teacher-input-group">
+
+                                <label for="removeTeacherId">
+                                    Teacher ID
+                                </label>
+
+                                <div class="remove-teacher-input-wrapper">
+
+                                    <input
+                                        type="text"
+                                        id="removeTeacherId"
+                                        placeholder="Teacher ID লিখুন"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Teacher Password -->
+                            <div class="remove-teacher-input-group">
+
+                                <label for="removeTeacherPassword">
+                                    Teacher Password
+                                </label>
+
+                                <div class="remove-teacher-input-wrapper">
+
+                                    <input
+                                        type="password"
+                                        id="removeTeacherPassword"
+                                        placeholder="Teacher Password লিখুন"
+                                        required
+                                    >
+
+                                    <button
+                                        type="button"
+                                        class="remove-password-toggle"
+                                        onclick="toggleRemoveTeacherPassword()"
+                                    >
+                                        <i
+                                            id="removeTeacherPasswordIcon"
+                                            class="fa-solid fa-eye"
+                                        ></i>
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Remove Button -->
+                            <button
+                                type="submit"
+                                class="remove-teacher-submit-btn"
+                            >
+                                <i class="fa-solid fa-trash-can"></i>
+                                Remove Teacher
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= TEACHER INFORMATION ================= -->
+                <div class="teachers-information-section">
+
+                    <h4>আমাদের শিক্ষকবৃন্দ</h4>
+
+                    <div id="teachersInformationContainer" class="teachers-information-grid">
+                        <!-- Registered teacher cards will appear here -->
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- জাভাস্ক্রিপ্ট -->
+    <script src="page.js"></script>
+    
+    
+    <!-- footer start -->
+
+<footer>
+    
+    
+    <section class="section-last">
+        
+        <div class="section-last__container">
+            
+            <div class="section-last__content-2 card-footer">
+                
+                <img src="image/hussain.jpg" alt="hussain">
+                <h2 style="font-family:Arial, Helvetica, sans-serif; font-size: 1.4rem; font-weight: bold;">Developed by: Md. Rabbik Hussain</h2>
+                <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px;">Helpline: <i class="fa-solid fa-phone"></i> +880 1819-682851</p>
+                <p style="font-size: 16px;">E-mail: <i class="fa-regular fa-envelope"></i> rabbikhussain722245@gmail.com</p>
+                
+            </div>
+            
+        </div>
+        
+    </section>
+    
+</footer>
+
+<!-- footer end -->
+
+</body>
+</html>

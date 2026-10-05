@@ -1,0 +1,2639 @@
+/* Google Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Hind Siliguri', sans-serif;
+}
+
+body {
+    background-color: #f4f7f6;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* ----- নেভবার ডিজাইন ----- */
+.navbar {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    padding: 12px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.nav-logo-placeholder {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: 2px solid #ffcb05;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.nav-logo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nav-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.nav-btn {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 8px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.nav-btn:hover {
+    background-color: #ffffff;
+    color: #1e3c72;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.nav-btn.active {
+    background-color: #ffcb05;
+    color: #1e3c72;
+    border-color: #ffcb05;
+}
+
+.btn-logout {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+}
+
+.btn-logout:hover {
+    background-color: #c0392b;
+    color: white;
+}
+
+/* ----- মেইন কন্টেইনার ----- */
+.container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 0 20px;
+    width: 100%;
+    flex: 1;
+}
+
+/* ----- কমন ইনফরমেশন কার্ড ----- */
+.info-card {
+    background: white;
+    border-radius: 12px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+    border-top: 5px solid #2a5298;
+    transition: transform 0.3s ease;
+}
+
+.info-card:hover {
+    transform: translateY(-3px);
+}
+
+.info-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto 15px auto;
+    border: 3px solid #2a5298;
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eef2f7;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.info-logo img{
+    height: 100%;
+    width: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 50%;
+    border: 1px solid greenyellow;
+    object-fit: cover;
+}
+
+.info-card h2 {
+    font-size: 1.8rem;
+    color: #1e3c72;
+    margin-bottom: 8px;
+}
+
+.info-details {
+    font-size: 1.1rem;
+    color: #555;
+    line-height: 1.6;
+}
+
+.info-details span {
+    display: inline-block;
+    margin: 0 8px;
+}
+
+.badge {
+    background-color: #eef2f7;
+    padding: 4px 12px;
+    border-radius: 20px;
+    color: #2a5298;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+/* ----- অ্যাকশন কার্ড সমূহের গ্রিড ----- */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    margin-top: 20px;
+}
+
+.action-card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    border: 1px solid #e1e8ed;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    border-color: #2a5298;
+}
+
+.action-card-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #eef2f7;
+    color: #2a5298;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.action-card h3 {
+    font-size: 1.4rem;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.btn-card {
+    background-color: #2a5298;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.action-card:hover .btn-card {
+    background-color: #1e3c72;
+}
+
+/* ----- ফরম সেকশন ----- */
+.form-container {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    margin-top: 30px;
+    display: none;
+    animation: fadeIn 0.4s ease-in-out;
+    border: 1px solid #e1e8ed;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 12px;
+    margin-bottom: 25px;
+}
+
+.form-header h3 {
+    color: #1e3c72;
+    font-size: 1.5rem;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.btn-close:hover {
+    color: #e74c3c;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    outline: none;
+}
+
+.form-control:focus {
+    border-color: #2a5298;
+    box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.2);
+}
+
+.btn-submit {
+    background-color: #27ae60;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s;
+}
+
+.btn-submit:hover {
+    background-color: #219150;
+}
+
+/* ----- পেজ ভিউ নিয়ন্ত্রণ ----- */
+.page {
+    display: none;
+}
+
+.page.active-page {
+    display: block;
+}
+
+.info-page-content {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    line-height: 1.8;
+    color: #444;
+}
+
+.info-page-content h3 {
+    color: #1e3c72;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+/* ----- রেসপন্সিভ ডিজাইন ----- */
+/* 768px থেকে 992px এর জন্য */
+@media (max-width: 992px) {
+    .container {
+        max-width: 90%;
+    }
+}
+
+/* 400px থেকে 768px এর জন্য */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+        padding: 15px 20px;
+    }
+
+    .nav-menu {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .info-card h2 {
+        font-size: 1.5rem;
+    }
+
+    .info-details {
+        font-size: 1rem;
+    }
+}
+
+/* 400px এর নিচে স্মল ডিভাইসের জন্য */
+@media (max-width: 400px) {
+    .nav-title {
+        font-size: 1.2rem;
+    }
+
+    .nav-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+
+    .info-logo {
+        width: 80px;
+        height: 80px;
+    }
+
+    .form-container {
+        padding: 20px 15px;
+    }
+    
+    .info-details span {
+        display: block;
+        margin: 5px 0;
+    }
+}
+
+
+/* ================= TEACHER INFORMATION CARDS ================= */
+
+.teachers-information-section {
+    margin-top: 30px;
+}
+
+.teachers-information-section h4 {
+    color: #1e3c72;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eef2f7;
+}
+
+.teachers-information-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.teacher-info-card {
+    background: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 14px;
+    min-height: 180px;
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.teacher-info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
+    border-color: #2a5298;
+}
+
+/* Profile - 1/3 */
+.teacher-profile-side {
+    width: 33.333%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #f8fafc;
+    border-right: 2px solid #e5eaf0;
+}
+
+.teacher-profile-image {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #ffffff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Information - 2/3 */
+.teacher-details-side {
+    width: 66.667%;
+    padding: 25px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.teacher-name {
+    color: #1e3c72;
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align:center;
+}
+
+.teacher-detail-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 1rem;
+}
+
+.teacher-detail-row i {
+    width: 22px;
+    color: #2a5298;
+    text-align: center;
+}
+
+.teacher-signature {
+    margin-top: 10px;
+    max-width: 100%;
+    height: 30px;
+    width: 80px;
+    object-fit: contain;
+}
+
+/* ছোট স্ক্রিন */
+@media (max-width: 600px) {
+    
+    .teacher-info-card {
+        flex-direction: column;
+        min-height: auto;
+    }
+    
+    .teacher-profile-side {
+        width: 100%;
+        padding: 25px 20px;
+        border-right: none;
+        border-bottom: 2px solid #e5eaf0;
+    }
+    
+    .teacher-details-side {
+        width: 100%;
+        padding: 22px 20px;
+    }
+    
+    .teacher-profile-image {
+        width: 115px;
+        height: 115px;
+    }
+    
+    .teacher-name {
+        font-size: 1.25rem;
+    }
+    
+    .teacher-detail-row {
+        font-size: 0.95rem;
+    }
+}
+
+
+/* =========================================================
+   REMOVE TEACHER SECTION
+   ========================================================= */
+
+.remove-teacher-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #fff7f7;
+    border: 1px solid #f3d1d1;
+    border-left: 5px solid #e74c3c;
+    border-radius: 12px;
+}
+
+.remove-teacher-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.remove-teacher-header h4 {
+    color: #c0392b;
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.remove-teacher-open-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #e74c3c;
+    color: #ffffff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 7px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.2);
+}
+
+.remove-teacher-open-btn:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(192, 57, 43, 0.25);
+}
+
+
+/* ----- Remove Teacher Form ----- */
+
+#removeTeacherForm {
+    display: none;
+    margin-top: 20px;
+    padding: 25px;
+    background: #ffffff;
+    border: 1px solid #eadede;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    animation: fadeIn 0.35s ease-in-out;
+}
+
+.remove-teacher-form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f1e5e5;
+}
+
+.remove-teacher-form-header h5 {
+    color: #c0392b;
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.remove-teacher-close-btn {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: #fceaea;
+    color: #c0392b;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.remove-teacher-close-btn:hover {
+    background: #e74c3c;
+    color: #ffffff;
+    transform: rotate(90deg);
+}
+
+.remove-teacher-input-group {
+    margin-bottom: 18px;
+}
+
+.remove-teacher-input-group label {
+    display: block;
+    margin-bottom: 7px;
+    color: #444;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.remove-teacher-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.remove-teacher-input-wrapper input {
+    width: 100%;
+    padding: 12px 45px 12px 14px;
+    border: 1px solid #d5d5d5;
+    border-radius: 7px;
+    background: #fafafa;
+    color: #333;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.remove-teacher-input-wrapper input:focus {
+    border-color: #e74c3c;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.12);
+}
+
+.remove-password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: #888;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px;
+}
+
+.remove-password-toggle:hover {
+    color: #c0392b;
+}
+
+.remove-teacher-submit-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 5px;
+    padding: 12px 20px;
+    background: #e74c3c;
+    color: #ffffff;
+    border: none;
+    border-radius: 7px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.18);
+}
+
+.remove-teacher-submit-btn:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(192, 57, 43, 0.25);
+}
+
+
+/* ----- Remove Teacher Responsive ----- */
+
+@media (max-width: 600px) {
+    .remove-teacher-section {
+        padding: 18px 15px;
+    }
+
+    .remove-teacher-header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .remove-teacher-header h4 {
+        font-size: 1.2rem;
+    }
+
+    .remove-teacher-open-btn {
+        width: 100%;
+    }
+
+    #removeTeacherForm {
+        padding: 20px 15px;
+    }
+
+    .remove-teacher-form-header h5 {
+        font-size: 1.15rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .remove-teacher-section {
+        margin-bottom: 25px;
+        padding: 15px 12px;
+    }
+
+    #removeTeacherForm {
+        padding: 18px 12px;
+    }
+
+    .remove-teacher-input-wrapper input {
+        font-size: 0.9rem;
+        padding: 11px 42px 11px 12px;
+    }
+
+    .remove-teacher-submit-btn {
+        font-size: 0.9rem;
+        padding: 11px 15px;
+    }
+}
+
+
+/* =========================================================
+   DIRECTOR INFORMATION CARDS
+   ========================================================= */
+
+.directors-information-section {
+    margin-top: 30px;
+}
+
+.directors-information-section h4 {
+    color: #1e3c72;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eef2f7;
+}
+
+.directors-information-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.director-info-card {
+    background: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 14px;
+    min-height: 180px;
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+}
+
+.director-info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
+    border-color: #2a5298;
+}
+
+/* Director Profile - 1/3 */
+
+.director-profile-side {
+    width: 33.333%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: #f8fafc;
+    border-right: 2px solid #e5eaf0;
+}
+
+.director-profile-image {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #ffffff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Director Information - 2/3 */
+
+.director-details-side {
+    width: 66.667%;
+    padding: 25px 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.director-name {
+    color: #1e3c72;
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.director-detail-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    color: #555;
+    font-size: 1rem;
+}
+
+.director-detail-row i {
+    width: 22px;
+    color: #2a5298;
+    text-align: center;
+}
+
+.director-signature {
+    margin-top: 10px;
+    max-width: 100%;
+    height: 30px;
+    width: 80px;
+    object-fit: contain;
+}
+
+
+/* =========================================================
+   REMOVE DIRECTOR SECTION
+   ========================================================= */
+
+.remove-director-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #fff7f7;
+    border: 1px solid #f3d1d1;
+    border-left: 5px solid #e74c3c;
+    border-radius: 12px;
+}
+
+.remove-director-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.remove-director-header h4 {
+    color: #c0392b;
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.remove-director-open-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #e74c3c;
+    color: #ffffff;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 7px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.2);
+}
+
+.remove-director-open-btn:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(192, 57, 43, 0.25);
+}
+
+
+/* ----- Remove Director Form ----- */
+
+#removeDirectorForm {
+    display: none;
+    margin-top: 20px;
+    padding: 25px;
+    background: #ffffff;
+    border: 1px solid #eadede;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+    animation: fadeIn 0.35s ease-in-out;
+}
+
+.remove-director-form-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 22px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #f1e5e5;
+}
+
+.remove-director-form-header h5 {
+    color: #c0392b;
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.remove-director-close-btn {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background: #fceaea;
+    color: #c0392b;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.remove-director-close-btn:hover {
+    background: #e74c3c;
+    color: #ffffff;
+    transform: rotate(90deg);
+}
+
+.remove-director-input-group {
+    margin-bottom: 18px;
+}
+
+.remove-director-input-group label {
+    display: block;
+    margin-bottom: 7px;
+    color: #444;
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.remove-director-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.remove-director-input-wrapper input {
+    width: 100%;
+    padding: 12px 45px 12px 14px;
+    border: 1px solid #d5d5d5;
+    border-radius: 7px;
+    background: #fafafa;
+    color: #333;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.remove-director-input-wrapper input:focus {
+    border-color: #e74c3c;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.12);
+}
+
+.director-password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 12px;
+    transform: translateY(-50%);
+    border: none;
+    background: transparent;
+    color: #888;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 4px;
+}
+
+.director-password-toggle:hover {
+    color: #c0392b;
+}
+
+.remove-director-submit-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 5px;
+    padding: 12px 20px;
+    background: #e74c3c;
+    color: #ffffff;
+    border: none;
+    border-radius: 7px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(231, 76, 60, 0.18);
+}
+
+.remove-director-submit-btn:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(192, 57, 43, 0.25);
+}
+
+
+/* =========================================================
+   DIRECTOR RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .director-info-card {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .director-profile-side {
+        width: 100%;
+        padding: 25px 20px;
+        border-right: none;
+        border-bottom: 2px solid #e5eaf0;
+    }
+
+    .director-details-side {
+        width: 100%;
+        padding: 22px 20px;
+    }
+
+    .director-profile-image {
+        width: 115px;
+        height: 115px;
+    }
+
+    .director-name {
+        font-size: 1.25rem;
+    }
+
+    .director-detail-row {
+        font-size: 0.95rem;
+    }
+
+    .remove-director-section {
+        padding: 18px 15px;
+    }
+
+    .remove-director-header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+
+    .remove-director-header h4 {
+        font-size: 1.2rem;
+    }
+
+    .remove-director-open-btn {
+        width: 100%;
+    }
+
+    #removeDirectorForm {
+        padding: 20px 15px;
+    }
+
+    .remove-director-form-header h5 {
+        font-size: 1.15rem;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .remove-director-section {
+        margin-bottom: 25px;
+        padding: 15px 12px;
+    }
+
+    #removeDirectorForm {
+        padding: 18px 12px;
+    }
+
+    .remove-director-input-wrapper input {
+        font-size: 0.9rem;
+        padding: 11px 42px 11px 12px;
+    }
+
+    .remove-director-submit-btn {
+        font-size: 0.9rem;
+        padding: 11px 15px;
+    }
+}
+
+
+
+/* =========================================================
+   RESULT SEARCH TERM CARDS
+   ========================================================= */
+
+.result-search-results {
+    width: 100%;
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+    align-items: stretch;
+}
+
+/* প্রতিটি Result Card */
+.result-term-card {
+    width: 100%;
+    min-width: 0;
+    min-height: 220px;
+    background: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 12px;
+    padding: 30px 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+/* Card Hover */
+.result-term-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    border-color: #2a5298;
+}
+
+/* Card Icon */
+.result-term-card-icon {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    border-radius: 50%;
+    background-color: #eef2f7;
+    color: #2a5298;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+/* Card Content */
+.result-term-card-content {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-term-card-content h3 {
+    font-size: 1.35rem;
+    color: #1e3c72;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.result-term-card-content p {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 18px;
+}
+
+/* রেজাল্ট দেখুন Button */
+.result-term-card-button {
+    width: 100%;
+    max-width: 220px;
+    background-color: #2a5298;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.result-term-card-button:hover {
+    background-color: #1e3c72;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   ২টি CARD হলে — বড় স্ক্রিনে অর্ধেক অর্ধেক
+   ========================================================= */
+
+.result-search-results:has(.result-term-card:nth-child(2):last-child) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+
+/* =========================================================
+   ১টি CARD হলে — বড় স্ক্রিনে পুরো Width
+   ========================================================= */
+
+.result-search-results:has(.result-term-card:only-child) {
+    grid-template-columns: 1fr;
+}
+
+
+/* =========================================================
+   TABLET / ছোট বড় স্ক্রিন
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .result-search-results {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .result-term-card {
+        min-height: 210px;
+    }
+}
+
+
+/* =========================================================
+   ছোট মোবাইল
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+    .result-search-results {
+        gap: 15px;
+        margin-top: 25px;
+    }
+
+    .result-term-card {
+        min-height: 200px;
+        padding: 25px 15px;
+    }
+
+    .result-term-card-icon {
+        width: 55px;
+        height: 55px;
+        min-width: 55px;
+        font-size: 1.6rem;
+    }
+
+    .result-term-card-content h3 {
+        font-size: 1.2rem;
+    }
+
+    .result-term-card-content p {
+        font-size: 0.9rem;
+    }
+
+    .result-term-card-button {
+        max-width: 100%;
+        font-size: 0.95rem;
+    }
+}
+
+
+/* ================= ফলাফলের শতকরা হার Card ================= */
+
+.percentage-result-card {
+    width: 100%;
+    margin-top: 30px;
+    padding: 30px 25px;
+    background: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    transition: all 0.3s ease;
+}
+
+.percentage-result-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    border-color: #2a5298;
+}
+
+.percentage-result-card h3 {
+    margin: 0;
+    color: #1e3c72;
+    font-size: 1.35rem;
+    line-height: 1.4;
+}
+
+.btn-percentage-result {
+    background-color: #2a5298;
+    color: #ffffff;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.btn-percentage-result:hover {
+    background-color: #1e3c72;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .percentage-result-card {
+        padding: 25px 20px;
+    }
+
+    .percentage-result-card h3 {
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .percentage-result-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .btn-percentage-result {
+        width: 100%;
+        max-width: 220px;
+    }
+}
+
+
+/* ================= ফলাফলের শতকরা হার Analysis Card ================= */
+
+.percentage-analysis-card {
+    width: 100%;
+    margin-top: 20px;
+    padding: 25px;
+    background: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.percentage-analysis-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.percentage-analysis-header h3 {
+    margin: 0 0 8px;
+    color: #1e3c72;
+    font-size: 1.35rem;
+}
+
+.percentage-analysis-header p {
+    margin: 0;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.percentage-analysis-body {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.percentage-stat {
+    padding: 15px 10px;
+    background: #f7f9fc;
+    border: 1px solid #e5eaf0;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.percentage-stat span {
+    display: block;
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.percentage-stat strong {
+    display: block;
+    color: #1e3c72;
+    font-size: 1.15rem;
+}
+
+
+/* ================= সামগ্রিক ফলাফল Summary Card ================= */
+
+.percentage-analysis-summary-card {
+    width: 100%;
+    margin-top: 30px;
+    padding: 30px 25px;
+    background: #ffffff;
+    border: 2px solid #2a5298;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(42, 82, 152, 0.12);
+}
+
+.percentage-analysis-summary-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.percentage-analysis-summary-header h3 {
+    margin: 0 0 8px;
+    color: #1e3c72;
+    font-size: 1.4rem;
+}
+
+.percentage-analysis-summary-header p {
+    margin: 0;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.percentage-analysis-summary-body {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 15px;
+}
+
+
+/* ================= Mobile Responsive ================= */
+
+@media (max-width: 768px) {
+
+    .percentage-analysis-card {
+        padding: 20px;
+    }
+
+    .percentage-analysis-body,
+    .percentage-analysis-summary-body {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .percentage-analysis-header h3,
+    .percentage-analysis-summary-header h3 {
+        font-size: 1.2rem;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .percentage-analysis-card {
+        padding: 18px 15px;
+    }
+
+    .percentage-analysis-body,
+    .percentage-analysis-summary-body {
+        grid-template-columns: 1fr;
+    }
+
+    .percentage-analysis-header h3,
+    .percentage-analysis-summary-header h3 {
+        font-size: 1.1rem;
+    }
+
+    .percentage-stat {
+        padding: 13px 10px;
+    }
+
+    .percentage-stat span {
+        font-size: 0.88rem;
+    }
+
+    .percentage-stat strong {
+        font-size: 1.05rem;
+    }
+
+    .percentage-analysis-summary-card {
+        padding: 22px 15px;
+    }
+}
+
+
+/* ================= সেশনের মোট ফলাফল Card ================= */
+
+.percentage-session-summary-card {
+    width: 100%;
+    margin-top: 30px;
+    padding: 30px 25px;
+    background: #ffffff;
+    border: 2px solid #2a5298;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(42, 82, 152, 0.12);
+}
+
+.percentage-session-summary-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    text-align: center;
+}
+
+.percentage-session-summary-icon {
+    width: 65px;
+    height: 65px;
+    min-width: 65px;
+    border-radius: 50%;
+    background-color: #eef2f7;
+    color: #2a5298;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.percentage-session-summary-text {
+    flex: 1;
+}
+
+.percentage-session-summary-text h3 {
+    margin: 0 0 10px;
+    color: #1e3c72;
+    font-size: 1.4rem;
+    line-height: 1.4;
+}
+
+.percentage-session-summary-text p {
+    margin: 0 0 12px;
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.8;
+}
+
+.percentage-session-summary-text strong {
+    display: block;
+    color: #2a5298;
+    font-size: 1.25rem;
+}
+
+
+/* ================= Mobile Responsive ================= */
+
+@media (max-width: 600px) {
+
+    .percentage-session-summary-card {
+        padding: 25px 18px;
+    }
+
+    .percentage-session-summary-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .percentage-session-summary-text h3 {
+        font-size: 1.2rem;
+    }
+
+    .percentage-session-summary-text p {
+        font-size: 0.88rem;
+        line-height: 1.9;
+    }
+
+    .percentage-session-summary-text strong {
+        font-size: 1.15rem;
+    }
+}
+
+
+/* =========================================================
+   Percentage Result — Class Row Layout
+   ========================================================= */
+
+.percentage-analysis-card {
+    width: 100%;
+    margin-top: 20px;
+    padding: 25px;
+    background: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.percentage-analysis-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.percentage-analysis-header h3 {
+    margin: 0 0 8px;
+    color: #1e3c72;
+    font-size: 1.35rem;
+    line-height: 1.4;
+}
+
+.percentage-analysis-header p {
+    margin: 0;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+
+/* =========================================================
+   Class Rows Container
+   ========================================================= */
+
+.percentage-analysis-rows {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+/* =========================================================
+   প্রতিটি Class-এর Row
+   ========================================================= */
+
+.percentage-analysis-row {
+    width: 100%;
+    display: grid;
+    grid-template-columns:
+        minmax(110px, 1.2fr)
+        repeat(5, minmax(90px, 1fr));
+    gap: 10px;
+    align-items: stretch;
+    padding: 12px;
+    background: #f7f9fc;
+    border: 1px solid #e5eaf0;
+    border-radius: 8px;
+}
+
+
+/* Class Name */
+
+.percentage-class-name {
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 10px;
+    background: #eef2f7;
+    border-radius: 7px;
+    color: #1e3c72;
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: center;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+
+/* Row-এর প্রতিটি Statistic */
+
+.percentage-row-stat {
+    min-width: 0;
+    padding: 10px 8px;
+    background: #ffffff;
+    border: 1px solid #e5eaf0;
+    border-radius: 7px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.percentage-row-stat span {
+    display: block;
+    color: #555;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    margin-bottom: 6px;
+    white-space: normal;
+    word-break: break-word;
+}
+
+.percentage-row-stat strong {
+    display: block;
+    color: #1e3c72;
+    font-size: 1.05rem;
+    line-height: 1.3;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   সামগ্রিক ফলাফল — একই Analysis Card-এর ভিতরের অংশ
+   ========================================================= */
+
+.percentage-analysis-overall {
+    width: 100%;
+    margin-top: 25px;
+    padding-top: 25px;
+    border-top: 2px solid #e1e8ed;
+}
+
+.percentage-analysis-overall-title {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.percentage-analysis-overall-title h3 {
+    margin: 0;
+    color: #1e3c72;
+    font-size: 1.25rem;
+}
+
+.percentage-analysis-overall-stats {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+}
+
+
+/* =========================================================
+   Session Summary Card — আলাদা Card
+   ========================================================= */
+
+.percentage-session-summary-card {
+    width: 100%;
+    margin-top: 30px;
+    padding: 30px 25px;
+    background: #ffffff;
+    border: 2px solid #2a5298;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(42, 82, 152, 0.12);
+    overflow: hidden;
+}
+
+.percentage-session-summary-content {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    text-align: center;
+}
+
+.percentage-session-summary-icon {
+    width: 65px;
+    height: 65px;
+    min-width: 65px;
+    border-radius: 50%;
+    background-color: #eef2f7;
+    color: #2a5298;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.percentage-session-summary-text {
+    min-width: 0;
+    flex: 1;
+}
+
+.percentage-session-summary-text h3 {
+    margin: 0 0 10px;
+    color: #1e3c72;
+    font-size: 1.4rem;
+    line-height: 1.4;
+}
+
+.percentage-session-summary-text p {
+    margin: 0 0 12px;
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    word-break: break-word;
+}
+
+.percentage-session-summary-text strong {
+    display: block;
+    color: #2a5298;
+    font-size: 1.25rem;
+}
+
+
+/* =========================================================
+   Mobile
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+    .percentage-analysis-card {
+        padding: 18px 15px;
+    }
+
+    .percentage-analysis-header h3 {
+        font-size: 1.15rem;
+    }
+
+    .percentage-analysis-header p {
+        font-size: 0.88rem;
+    }
+
+    /*
+       Mobile-এ প্রতিটি Class একেকটি Row-এর মতো থাকবে,
+       কিন্তু ভিতরের তথ্য 2-column layout-এ সাজবে।
+    */
+
+    .percentage-analysis-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .percentage-class-name {
+        grid-column: 1 / -1;
+        min-height: 42px;
+        font-size: 1rem;
+    }
+
+    .percentage-row-stat {
+        min-height: 65px;
+        padding: 9px 6px;
+    }
+
+    .percentage-row-stat span {
+        font-size: 0.76rem;
+        line-height: 1.35;
+    }
+
+    .percentage-row-stat strong {
+        font-size: 0.95rem;
+    }
+
+    .percentage-analysis-overall {
+        margin-top: 20px;
+        padding-top: 20px;
+    }
+
+    .percentage-analysis-overall-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+
+    .percentage-analysis-overall-title h3 {
+        font-size: 1.1rem;
+    }
+
+    .percentage-session-summary-card {
+        padding: 25px 18px;
+    }
+
+    .percentage-session-summary-content {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .percentage-session-summary-text h3 {
+        font-size: 1.2rem;
+    }
+
+    .percentage-session-summary-text p {
+        font-size: 0.88rem;
+        line-height: 1.9;
+    }
+
+    .percentage-session-summary-text strong {
+        font-size: 1.15rem;
+    }
+}
+
+
+/* =========================================================
+   ছোট Mobile
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+    .percentage-analysis-card {
+        padding: 15px 10px;
+    }
+
+    .percentage-analysis-row {
+        gap: 6px;
+        padding: 8px;
+    }
+
+    .percentage-class-name {
+        font-size: 0.92rem;
+    }
+
+    .percentage-row-stat {
+        min-height: 60px;
+        padding: 8px 5px;
+    }
+
+    .percentage-row-stat span {
+        font-size: 0.7rem;
+    }
+
+    .percentage-row-stat strong {
+        font-size: 0.88rem;
+    }
+
+    .percentage-analysis-overall-stats {
+        gap: 6px;
+    }
+
+    .percentage-session-summary-card {
+        padding: 22px 14px;
+    }
+}
+
+
+/* =========================================================
+   769px-এর নিচে — Responsive Percentage Analysis
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .percentage-analysis-card {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .percentage-analysis-rows {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .percentage-analysis-row {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+
+        display: grid;
+
+        grid-template-columns:
+            minmax(0, 1.15fr)
+            repeat(5, minmax(0, 1fr));
+
+        gap: 10px;
+        padding: 10px;
+
+        overflow: hidden;
+    }
+
+    .percentage-class-name {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 12px 8px;
+
+        white-space: normal;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+
+        overflow: hidden;
+
+        text-align: center;
+        line-height: 1.4;
+    }
+
+    .percentage-row-stat {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+
+        min-height: 65px;
+
+        padding: 10px 6px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        text-align: center;
+
+        overflow: hidden;
+    }
+
+    .percentage-row-stat span {
+        display: block;
+
+        width: 100%;
+        max-width: 100%;
+
+        margin-bottom: 6px;
+
+        font-size: 0.82rem;
+        line-height: 1.4;
+
+        white-space: normal;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+
+        overflow: hidden;
+    }
+
+    .percentage-row-stat strong {
+        display: block;
+
+        width: 100%;
+        max-width: 100%;
+
+        font-size: 1rem;
+        line-height: 1.3;
+
+        white-space: nowrap;
+
+        overflow: hidden;
+        text-overflow: clip;
+    }
+
+    /* =====================================================
+       সামগ্রিক ফলাফল
+       ===================================================== */
+
+    .percentage-analysis-overall {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+
+        margin-top: 25px;
+        padding-top: 25px;
+
+        overflow: hidden;
+    }
+
+    .percentage-analysis-overall-stats {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(5, minmax(0, 1fr));
+
+        gap: 10px;
+    }
+
+    .percentage-analysis-overall .percentage-row-stat {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+
+
+/* =========================================================
+   Percentage Analysis ও Session Summary — Full Width
+   ========================================================= */
+
+.percentage-analysis-card,
+.percentage-session-summary-card {
+    grid-column: 1 / -1;
+}
+
+
+/* =========================================================
+   RESULT ANALYSIS CARDS — Feature 6
+   Percentage + Best Students
+   ========================================================= */
+
+.result-analysis-cards {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px;
+    align-items: stretch;
+}
+
+
+/* =========================================================
+   Percentage Card + Best Students Card
+   ========================================================= */
+
+.result-analysis-cards .percentage-result-card,
+.result-analysis-cards .best-students-card {
+    width: 100%;
+    margin-top: 30px;
+    min-width: 0;
+    min-height: 120px;
+    padding: 25px 22px;
+    background: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+
+    transition: all 0.3s ease;
+}
+
+
+/* Hover */
+
+.result-analysis-cards .percentage-result-card:hover,
+.result-analysis-cards .best-students-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    border-color: #2a5298;
+}
+
+
+/* =========================================================
+   Card Title
+   ========================================================= */
+
+.result-analysis-cards .percentage-result-card h3,
+.result-analysis-cards .best-students-card h3 {
+    margin: 0;
+    min-width: 0;
+
+    color: #1e3c72;
+    font-size: 1.25rem;
+    line-height: 1.5;
+
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   Percentage Button
+   ========================================================= */
+
+.result-analysis-cards .btn-percentage-result {
+    flex-shrink: 0;
+}
+
+
+/* =========================================================
+   Best Students Button
+   ========================================================= */
+
+.btn-best-students {
+    flex-shrink: 0;
+
+    background-color: #2a5298;
+    color: #ffffff;
+
+    border: none;
+    padding: 10px 25px;
+
+    border-radius: 6px;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.3s ease;
+
+    white-space: nowrap;
+}
+
+.btn-best-students:hover {
+    background-color: #1e3c72;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   Tablet
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .result-analysis-cards {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .result-analysis-cards .percentage-result-card,
+    .result-analysis-cards .best-students-card {
+        margin-top: 25px;
+        padding: 25px 20px;
+    }
+
+    .result-analysis-cards .percentage-result-card h3,
+    .result-analysis-cards .best-students-card h3 {
+        font-size: 1.2rem;
+    }
+}
+
+
+/* =========================================================
+   Mobile
+   ========================================================= */
+
+@media (max-width: 500px) {
+
+    .result-analysis-cards {
+        gap: 0;
+    }
+
+    .result-analysis-cards .percentage-result-card,
+    .result-analysis-cards .best-students-card {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        gap: 15px;
+
+        padding: 22px 18px;
+    }
+
+    .result-analysis-cards .percentage-result-card h3,
+    .result-analysis-cards .best-students-card h3 {
+        font-size: 1.15rem;
+    }
+
+    .result-analysis-cards .btn-percentage-result,
+    .result-analysis-cards .btn-best-students {
+        width: 100%;
+        max-width: 220px;
+    }
+}
+
+
+/* =========================================================
+   Very Small Devices — 400px and below
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+    .result-analysis-cards .percentage-result-card,
+    .result-analysis-cards .best-students-card {
+        margin-top: 20px;
+        padding: 20px 14px;
+    }
+
+    .result-analysis-cards .percentage-result-card h3,
+    .result-analysis-cards .best-students-card h3 {
+        font-size: 1.05rem;
+        line-height: 1.5;
+    }
+
+    .result-analysis-cards .btn-percentage-result,
+    .result-analysis-cards .btn-best-students {
+        max-width: 100%;
+        font-size: 0.95rem;
+        padding: 10px 18px;
+    }
+}
+
+
+/* =========================================================
+   Feature 6 — Best Students Result Display
+   ========================================================= */
+
+.best-students-term-section {
+    width: 100%;
+    margin-top: 30px;
+    padding: 25px 20px;
+    background: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.best-students-term-title {
+    margin: 0 0 20px;
+    color: #1e3c72;
+    font-size: 1.35rem;
+    text-align: center;
+}
+
+.best-students-class-section {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.best-students-class-title {
+    margin: 0 0 12px;
+    padding: 10px 14px;
+    background: #f3f6fa;
+    color: #1e3c72;
+    border-radius: 6px;
+    font-size: 1.1rem;
+}
+
+.best-student-item {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) 1fr 1fr;
+    gap: 15px;
+    align-items: center;
+
+    padding: 12px 15px;
+    margin-bottom: 8px;
+
+    background: #ffffff;
+    border: 1px solid #e1e8ed;
+    border-radius: 6px;
+}
+
+.best-student-item div {
+    min-width: 0;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+.best-student-item strong {
+    color: #1e3c72;
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .best-students-term-section {
+        padding: 20px 15px;
+    }
+
+    .best-student-item {
+        grid-template-columns: 1fr;
+        gap: 7px;
+        padding: 12px;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .best-students-term-section {
+        margin-top: 25px;
+        padding: 18px 12px;
+    }
+
+    .best-students-term-title {
+        font-size: 1.2rem;
+    }
+
+    .best-students-class-title {
+        font-size: 1rem;
+    }
+
+    .best-student-item {
+        font-size: 0.95rem;
+    }
+}
+
+
+@media (max-width: 400px) {
+
+    .best-students-term-section {
+        padding: 16px 10px;
+    }
+
+    .best-students-term-title {
+        font-size: 1.1rem;
+    }
+
+    .best-students-class-title {
+        font-size: 0.95rem;
+        padding: 9px 10px;
+    }
+
+    .best-student-item {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
+
+
+/* =========================================================
+   Feature 6 — Best Students Term Cards
+   ========================================================= */
+
+.best-students-term-card {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+
+    padding: 25px 20px;
+    background: #ffffff;
+
+    border: 1px solid #e1e8ed;
+    border-radius: 12px;
+
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 18px;
+
+    text-align: center;
+
+    overflow: hidden;
+
+    transition: all 0.3s ease;
+}
+
+.best-students-term-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    border-color: #2a5298;
+}
+
+.best-students-term-card-title {
+    width: 100%;
+    min-width: 0;
+
+    margin: 0;
+
+    color: #1e3c72;
+    font-size: 1.25rem;
+    line-height: 1.5;
+
+    word-break: normal;
+    overflow-wrap: break-word;
+}
+
+.btn-view-best-students {
+    width: auto;
+    max-width: 100%;
+
+    padding: 10px 25px;
+
+    background-color: #2a5298;
+    color: #ffffff;
+
+    border: none;
+    border-radius: 6px;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    transition: all 0.3s ease;
+}
+
+.btn-view-best-students:hover {
+    background-color: #1e3c72;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   Desktop — 1 / 2 / 3 cards according to available width
+   ========================================================= */
+
+#best-students-search-results {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(260px, 1fr)
+    );
+
+    gap: 20px;
+
+    align-items: stretch;
+}
+
+
+/* =========================================================
+   Mobile Responsive
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    #best-students-search-results {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .best-students-term-card {
+        padding: 22px 18px;
+    }
+
+    .best-students-term-card-title {
+        font-size: 1.15rem;
+    }
+
+    .btn-view-best-students {
+        width: 100%;
+        max-width: 220px;
+    }
+}
+
+
+@media (max-width: 400px) {
+
+    #best-students-search-results {
+        gap: 12px;
+    }
+
+    .best-students-term-card {
+        padding: 20px 14px;
+    }
+
+    .best-students-term-card-title {
+        font-size: 1.05rem;
+    }
+
+    .btn-view-best-students {
+        max-width: 100%;
+        padding: 10px 18px;
+        font-size: 0.95rem;
+    }
+}
+
+
+/* =========================================================
+   Feature 6 — Best Students Center Alignment
+   ========================================================= */
+
+#best-students-search-results {
+    width: 100%;
+    text-align: center;
+}
+
+
+/* Selected term result */
+.best-students-list-section {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+
+/* Class sections */
+.best-students-list-section
+.best-students-class-section {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+
+/* Class title */
+.best-students-list-section
+.best-students-class-title {
+    text-align: center;
+}
+
+
+/* Student information */
+.best-students-list-section
+.best-student-item {
+    text-align: center;
+}
+
+
+/* Student information inside card */
+.best-students-list-section
+.best-student-item > div {
+    text-align: center;
+}
