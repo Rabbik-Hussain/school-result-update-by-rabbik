@@ -511,6 +511,10 @@
             }
         }
     </style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 </head>
 
 <body>
@@ -912,11 +916,14 @@
             );
 
 
-            addInfoItem(
-                infoGrid,
-                'রোল নম্বর',
-                getStudentRoll(student)
-            );
+           addInfoItem(
+    infoGrid,
+    'রোল নম্বর',
+    getStudentRoll(
+        student,
+        Number(detailsContext.studentIndex)
+    )
+);
 
 
             addInfoItem(
@@ -1155,40 +1162,17 @@
            ROLL FINDER
         ========================= */
 
-        function getStudentRoll(student) {
+       function getStudentRoll(student, studentIndex) {
 
-            const possibleRolls = [
-                student.roll,
-                student.rollNumber,
-                student.studentRoll,
-                student.rollNo
-            ];
+    if (
+        Number.isInteger(studentIndex) &&
+        studentIndex >= 0
+    ) {
+        return String(studentIndex + 1).padStart(2, '0');
+    }
 
-
-            for (
-                const roll of possibleRolls
-            ) {
-
-                if (
-                    roll !== undefined &&
-                    roll !== null &&
-                    String(roll).trim() !== ""
-                ) {
-
-                    return roll;
-                }
-            }
-
-
-            /*
-             * বর্তমান result system-এ আলাদা roll field
-             * না থাকলে array position থেকে roll তৈরি করা হবে না,
-             * কারণ Details page-এ ভুল তথ্য দেখানো উচিত নয়।
-             */
-
-            return null;
-        }
-
+    return null;
+}
 
         /* =========================
            CLASS / SESSION FALLBACK
@@ -1293,16 +1277,71 @@
            PDF
         ========================= */
 
-        function downloadDetailsPDF() {
+        async function downloadDetailsPDF() {
 
-            /*
-             * Browser-এর native print-to-PDF ব্যবহার করা হবে।
-             * এতে content কেটে যাওয়ার সম্ভাবনা কম থাকে এবং
-             * প্রয়োজন হলে একাধিক A4 page তৈরি হতে পারে।
-             */
+    const resultSheet =
+        document.getElementById('resultDetailsSheet');
 
-            window.print();
+    if (!resultSheet) {
+        alert('রেজাল্ট শিট পাওয়া যায়নি।');
+        return;
+    }
+
+    if (typeof html2pdf === 'undefined') {
+        alert('PDF তৈরি করার প্রয়োজনীয় ব্যবস্থা পাওয়া যায়নি।');
+        return;
+    }
+
+    const studentName =
+        document.getElementById('resultTitle')?.textContent?.trim()
+        || 'Result';
+
+    const safeFileName =
+        studentName
+            .replace(/[\\/:*?"<>|]/g, '')
+            .replace(/\s+/g, '_');
+
+    const options = {
+        margin: [8, 8, 8, 8],
+
+        filename: `${safeFileName}_Result.pdf`,
+
+        image: {
+            type: 'jpeg',
+            quality: 0.98
+        },
+
+        html2canvas: {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#ffffff'
+        },
+
+        jsPDF: {
+            unit: 'mm',
+            format: 'a4',
+            orientation: 'portrait'
+        },
+
+        pagebreak: {
+            mode: ['css', 'legacy']
         }
+    };
+
+    try {
+        await html2pdf()
+            .set(options)
+            .from(resultSheet)
+            .save();
+
+    } catch (error) {
+        console.error('PDF generation error:', error);
+
+        alert(
+            'PDF তৈরি করতে সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।'
+        );
+    }
+}
 
 
         /* =========================
