@@ -1,12 +1,22 @@
 function getCurrentLoggedInUser() {
-    const teacherId = localStorage.getItem('LS_LOGGED_IN_USER');
+    const teacherId =
+        localStorage.getItem('LS_LOGGED_IN_USER');
 
     if (!teacherId) {
         return null;
     }
 
-    const teachersDB =
-        JSON.parse(localStorage.getItem('teachersDB')) || {};
+    let teachersDB = {};
+
+    try {
+        teachersDB =
+            JSON.parse(
+                localStorage.getItem('teachersDB')
+            ) || {};
+    } catch (error) {
+        console.error('teachersDB data parse error:', error);
+        return null;
+    }
 
     return teachersDB[teacherId] || null;
 }
@@ -76,12 +86,19 @@ if (oldBestStudentsResults) {
     JSON.parse(localStorage.getItem('ls_school_data')) || {};
 
 const sessionResults = Object.entries(schoolData).filter(
-    ([key]) => key.endsWith(`_${session}`)
+    ([key, classData]) =>
+        classData &&
+        classData.sessionYear === session
 );
 
 console.log('Best Students Session:', session);
 console.log('Best Students Existing Data:', sessionResults);
 console.log('Best Students Data Structure:', sessionResults);
+if (sessionResults.length === 0) {
+    alert('এই সেশনের জন্য এখনো কোনো ফলাফল পাওয়া যায়নি।');
+    return;
+}
+
 console.log(
     'Best Students First Data JSON:',
     JSON.stringify(sessionResults[0][1], null, 2)
@@ -1489,15 +1506,47 @@ function openPercentageTermResult(session, term) {
     JSON.parse(localStorage.getItem('ls_school_data')) || {};
 
   // Result System-এ ব্যবহৃত বৈধ Class নাম
+  // Result System-এ ব্যবহৃত বৈধ Class নাম
   const validClasses = [
-    "PLAY",
-    "NURSERY",
-    "ONE",
-    "TWO",
-    "THREE",
-    "FOUR",
-    "FIVE"
+    "play",
+    "nursery",
+    "one",
+    "two",
+    "three",
+    "four",
+    "five"
   ];
+
+  // বাংলা ও English Class নামকে একই নামে রূপান্তর
+  const normalizeClassName = function(className) {
+    const classMap = {
+      "প্লে": "play",
+      "play": "play",
+
+      "নার্সারি": "nursery",
+      "nursery": "nursery",
+
+      "ওয়ান": "one",
+      "ওয়ান": "one",
+      "one": "one",
+
+      "টু": "two",
+      "two": "two",
+
+      "থ্রি": "three",
+      "three": "three",
+
+      "ফোর": "four",
+      "four": "four",
+
+      "ফাইভ": "five",
+      "five": "five"
+    };
+
+    return classMap[
+      String(className || "").trim().toLowerCase()
+    ] || "";
+  };
 
   // নির্দিষ্ট Session-এর শুধু বৈধ Class Result নেওয়া
   const sessionClasses =
@@ -1510,7 +1559,7 @@ function openPercentageTermResult(session, term) {
         classData.sessionYear &&
         String(classData.sessionYear).trim() === session &&
         validClasses.includes(
-          String(classData.className || "").trim().toUpperCase()
+          normalizeClassName(classData.className)
         ) &&
         Array.isArray(classData.students)
       );
