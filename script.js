@@ -1101,6 +1101,16 @@ function openResultDetails(studentIndex) {
         JSON.stringify(context)
     );
 
+    // বিস্তারিত পেজ থেকে ফিরে আসার জন্য
+    // বর্তমান Result Step 4-এর context সংরক্ষণ
+    sessionStorage.setItem(
+        'ls_result_details_return_context',
+        JSON.stringify({
+            classKey: `${className}_${sessionYear}`,
+            term: selectedTerm
+        })
+    );
+
     window.location.href = 'result-details.html';
 }
 

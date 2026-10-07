@@ -34,8 +34,8 @@
 }
 
 .section-last__content-2 img {
-  max-width: 100px;
-  height: auto;
+  width: 100px;
+  height: 100px;
   border: 1.5px solid black;
   border-radius: 50%;
 }

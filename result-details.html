@@ -1257,10 +1257,26 @@
            BACK
         ========================= */
 
-        function goBackToResult() {
+       function goBackToResult() {
+    const returnContext =
+        sessionStorage.getItem('ls_result_details_return_context');
 
-            window.history.back();
-        }
+    if (!returnContext) {
+        window.location.href = 'result.html';
+        return;
+    }
+
+    sessionStorage.setItem(
+        'ls_result_search_context',
+        returnContext
+    );
+
+    sessionStorage.removeItem(
+        'ls_result_details_return_context'
+    );
+
+    window.location.href = 'result.html';
+}
 
 
         /* =========================

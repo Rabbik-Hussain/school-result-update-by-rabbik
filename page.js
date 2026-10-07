@@ -1941,3 +1941,446 @@ function handleLogout() {
     window.location.href = "index.html";
   }
 }
+
+
+// =========================================================
+// LANGUAGE TOGGLE
+// =========================================================
+
+function toggleLanguage() {
+
+    const currentLanguage =
+        localStorage.getItem('LS_PAGE_LANGUAGE') || 'bn';
+
+    const newLanguage =
+        currentLanguage === 'bn' ? 'en' : 'bn';
+
+    localStorage.setItem(
+        'LS_PAGE_LANGUAGE',
+        newLanguage
+    );
+
+    applyPageLanguage(newLanguage);
+}
+
+
+// =========================================================
+// LANGUAGE — STEP 3
+// =========================================================
+
+function applyPageLanguage(language) {
+
+    const languageButton =
+        document.getElementById('language-toggle');
+
+    const homeButton =
+        document.getElementById('btn-home');
+
+    const infoButton =
+        document.getElementById('btn-info');
+
+    const logoutButton =
+        document.querySelector('.btn-logout');
+
+    const schoolNameText =
+        document.getElementById('school-name-text');
+
+    const schoolAddressText =
+        document.getElementById('school-address-text');
+
+    const schoolEstablishedText =
+        document.getElementById('school-established-text');
+
+    const viewResultTitle =
+        document.getElementById('view-result-title');
+
+    const enterResultButton =
+        document.getElementById('enter-result-button');
+
+    const createResultTitle =
+        document.getElementById('create-result-title');
+
+    const createResultButton =
+        document.getElementById('create-result-button');
+
+    const percentageResultTitle =
+        document.getElementById('percentage-result-title');
+
+    const percentageResultButton =
+        document.getElementById('percentage-result-button');
+
+    const bestStudentsTitle =
+        document.getElementById('best-students-title');
+
+    const bestStudentsButton =
+        document.getElementById('best-students-button');
+
+    const aboutSchoolTitle =
+        document.getElementById('about-school-title');
+
+    const aboutSchoolText =
+        document.getElementById('about-school-text');
+
+    const schoolGoalTitle =
+        document.getElementById('school-goal-title');
+
+    const schoolGoalText =
+        document.getElementById('school-goal-text');
+
+    const resultFormTitle =
+    document.getElementById('result-form-title');
+
+    const resultClassLabel =
+        document.getElementById('result-class-label');
+
+    const resultSessionLabel =
+        document.getElementById('result-session-label');
+
+    const resultSearchButton =
+        document.getElementById('result-search-button');
+
+    const resultClassInput =
+    document.getElementById('class-input');
+
+    const resultSessionInput =
+    document.getElementById('session-input');
+
+    const percentageFormTitle =
+    document.getElementById('percentage-form-title');
+
+    const percentageSessionLabel =
+        document.getElementById('percentage-session-label');
+
+    const percentageSearchButton =
+        document.getElementById('percentage-search-button');
+
+    const percentageSessionInput =
+    document.getElementById('percentage-session-input');
+
+    const bestStudentsFormTitle =
+    document.getElementById('best-students-form-title');
+
+    const bestStudentsSessionLabel =
+        document.getElementById('best-students-session-label');
+
+    const bestStudentsSearchButton =
+        document.getElementById('best-students-search-button');
+
+    const bestStudentsSessionInput =
+    document.getElementById('best-students-session-input');
+
+
+    if (language === 'en') {
+
+        if (languageButton) {
+            languageButton.textContent = 'বাংলা';
+        }
+
+        if (homeButton) {
+            homeButton.textContent = 'Home';
+        }
+
+        if (infoButton) {
+            infoButton.textContent = 'Information';
+        }
+
+        if (logoutButton) {
+            logoutButton.textContent = 'Log Out';
+        }
+
+        if (schoolNameText) {
+            schoolNameText.textContent = 'Learning School';
+        }
+
+        if (schoolAddressText) {
+            schoolAddressText.textContent =
+                'Address: Sattish, Fenchuganj, Sylhet';
+        }
+
+        if (schoolEstablishedText) {
+            schoolEstablishedText.textContent =
+                'Established: 2018';
+        }
+
+        if (viewResultTitle) {
+            viewResultTitle.textContent = 'View Result';
+        }
+
+        if (enterResultButton) {
+            enterResultButton.textContent = 'Enter';
+        }
+
+        if (createResultTitle) {
+            createResultTitle.textContent = 'Create Result';
+        }
+
+        if (createResultButton) {
+            createResultButton.textContent = 'Create';
+        }
+
+        if (percentageResultTitle) {
+            percentageResultTitle.textContent =
+                'View Result Percentage';
+        }
+
+        if (percentageResultButton) {
+            percentageResultButton.textContent = 'View';
+        }
+
+        if (bestStudentsTitle) {
+            bestStudentsTitle.textContent =
+                'Best Students at a Glance';
+        }
+
+        if (bestStudentsButton) {
+            bestStudentsButton.textContent = 'View';
+        }
+
+        if (aboutSchoolTitle) {
+            aboutSchoolTitle.textContent =
+                'About Our Institution';
+        }
+
+        if (aboutSchoolText) {
+            aboutSchoolText.textContent =
+                'Learning School is a modern educational institution established in 2018 in Fenchuganj, Sylhet. Along with providing quality education to students, we also work for their overall development.';
+        }
+
+        if (schoolGoalTitle) {
+            schoolGoalTitle.textContent =
+                'Our Goals and Objectives';
+        }
+
+        if (schoolGoalText) {
+            schoolGoalText.textContent =
+                'To develop students into responsible citizens through modern technology and quality education, and to spread the light of education everywhere.';
+        }
+
+        if (resultFormTitle) {
+    resultFormTitle.textContent =
+        'View Result';
+}
+
+if (resultClassLabel) {
+    resultClassLabel.textContent =
+        'Class';
+}
+
+if (resultSessionLabel) {
+    resultSessionLabel.textContent =
+        'Session';
+}
+
+if (resultSearchButton) {
+    resultSearchButton.textContent =
+        'Search';
+}
+
+if (resultClassInput) {
+    resultClassInput.placeholder =
+        'Enter class';
+}
+
+if (resultSessionInput) {
+    resultSessionInput.placeholder =
+        'Enter session';
+}
+
+if (percentageFormTitle) {
+    percentageFormTitle.textContent =
+        'View Result Percentage';
+}
+
+if (percentageSessionLabel) {
+    percentageSessionLabel.textContent =
+        'Session';
+}
+
+if (percentageSearchButton) {
+    percentageSearchButton.textContent =
+        'Search';
+}
+
+if (percentageSessionInput) {
+    percentageSessionInput.placeholder =
+        'Enter session';
+}
+
+if (bestStudentsFormTitle) {
+    bestStudentsFormTitle.textContent =
+        'Best Students at a Glance';
+}
+
+if (bestStudentsSessionLabel) {
+    bestStudentsSessionLabel.textContent =
+        'Session';
+}
+
+if (bestStudentsSearchButton) {
+    bestStudentsSearchButton.textContent =
+        'Search';
+}
+
+if (bestStudentsSessionInput) {
+    bestStudentsSessionInput.placeholder =
+        'Enter session';
+}
+
+    } else {
+
+        if (languageButton) {
+            languageButton.textContent = 'English';
+        }
+
+        if (homeButton) {
+            homeButton.textContent = 'হোম';
+        }
+
+        if (infoButton) {
+            infoButton.textContent = 'ইনফরমেশন';
+        }
+
+        if (logoutButton) {
+            logoutButton.textContent = 'লগ আউট';
+        }
+
+        if (schoolNameText) {
+            schoolNameText.textContent = 'লার্নিং স্কুল';
+        }
+
+        if (schoolAddressText) {
+            schoolAddressText.textContent =
+                'ঠিকানা: ছত্তিশ, ফেঞ্চুগঞ্জ, সিলেট';
+        }
+
+        if (schoolEstablishedText) {
+            schoolEstablishedText.textContent =
+                'স্থাপিত: ২০১৮';
+        }
+
+        if (viewResultTitle) {
+            viewResultTitle.textContent = 'রেজাল্ট দেখুন';
+        }
+
+        if (enterResultButton) {
+            enterResultButton.textContent = 'প্রবেশ করুন';
+        }
+
+        if (createResultTitle) {
+            createResultTitle.textContent = 'রেজাল্ট তৈরি করুন';
+        }
+
+        if (createResultButton) {
+            createResultButton.textContent = 'তৈরি করুন';
+        }
+
+        if (percentageResultTitle) {
+            percentageResultTitle.textContent =
+                'ফলাফলের শতকরা হার দেখুন';
+        }
+
+        if (percentageResultButton) {
+            percentageResultButton.textContent = 'দেখুন';
+        }
+
+        if (bestStudentsTitle) {
+            bestStudentsTitle.textContent =
+                'এক নজরে সকল সেরা শিক্ষার্থী';
+        }
+
+        if (bestStudentsButton) {
+            bestStudentsButton.textContent = 'দেখুন';
+        }
+
+        if (aboutSchoolTitle) {
+            aboutSchoolTitle.textContent =
+                'আমাদের প্রতিষ্ঠান সম্পর্কে';
+        }
+
+        if (aboutSchoolText) {
+            aboutSchoolText.textContent =
+                'লার্নিং স্কুল ২০১৮ সালে সিলেট জেলার ফেঞ্চুগঞ্জে প্রতিষ্ঠিত একটি আধুনিক শিক্ষা প্রতিষ্ঠান। এখানে শিক্ষার্থীদের মানসম্মত শিক্ষা প্রদানের পাশাপাশি তাদের সার্বিক বিকাশে কাজ করা হয়।';
+        }
+
+        if (schoolGoalTitle) {
+            schoolGoalTitle.textContent =
+                'আমাদের লক্ষ্য ও উদ্দেশ্য';
+        }
+
+        if (schoolGoalText) {
+            schoolGoalText.textContent =
+                'আধুনিক প্রযুক্তি ও মানসম্মত শিক্ষা ব্যবস্থার মাধ্যমে শিক্ষার্থীদের সুনাগরিক হিসেবে গড়ে তোলা এবং শিক্ষার আলো সর্বত্র ছড়িয়ে দেওয়া।';
+        }
+
+        if (resultFormTitle) {
+    resultFormTitle.textContent =
+        'রেজাল্ট দেখুন';
+}
+
+if (resultClassLabel) {
+    resultClassLabel.textContent =
+        'ক্লাস';
+}
+
+if (resultSessionLabel) {
+    resultSessionLabel.textContent =
+        'সেশন';
+}
+
+if (resultSearchButton) {
+    resultSearchButton.textContent =
+        'খুঁজুন';
+}
+
+if (resultClassInput) {
+    resultClassInput.placeholder =
+        'ক্লাস লিখুন';
+}
+
+if (resultSessionInput) {
+    resultSessionInput.placeholder =
+        'সেশন লিখুন';
+}
+
+if (percentageFormTitle) {
+    percentageFormTitle.textContent =
+        'ফলাফলের শতকরা হার দেখুন';
+}
+
+if (percentageSessionLabel) {
+    percentageSessionLabel.textContent =
+        'সেশন';
+}
+
+if (percentageSearchButton) {
+    percentageSearchButton.textContent =
+        'খুঁজুন';
+}
+
+if (percentageSessionInput) {
+    percentageSessionInput.placeholder =
+        'সেশন লিখুন';
+}
+
+if (bestStudentsFormTitle) {
+    bestStudentsFormTitle.textContent =
+        'এক নজরে সেরা শিক্ষার্থী';
+}
+
+if (bestStudentsSessionLabel) {
+    bestStudentsSessionLabel.textContent =
+        'সেশন';
+}
+
+if (bestStudentsSearchButton) {
+    bestStudentsSearchButton.textContent =
+        'খুঁজুন';
+}
+
+if (bestStudentsSessionInput) {
+    bestStudentsSessionInput.placeholder =
+        'সেশন লিখুন';
+}
+
+    }
+}

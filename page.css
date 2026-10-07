@@ -61,6 +61,40 @@ body {
     letter-spacing: 0.5px;
 }
 
+/* ================= LANGUAGE TOGGLE BUTTON ================= */
+
+.language-toggle {
+    border: none;
+    outline: none;
+    padding: 8px 16px;
+    margin-left: 12px;
+    border-radius: 20px;
+    background: #ffffff;
+    color: #2a5298;
+    font-family: 'Hind Siliguri', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease,
+        color 0.25s ease;
+}
+
+.language-toggle:hover {
+    transform: translateY(-2px);
+    background: #ffff00;
+    color: #000000;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+}
+
+.language-toggle:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+}
+
 .nav-menu {
     display: flex;
     gap: 12px;

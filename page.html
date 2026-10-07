@@ -20,6 +20,14 @@
                 <img src="image/logo2.jpg" alt="logo">
             </div>
             <div class="nav-title">লার্নিং স্কুল</div>
+            <button
+                type="button"
+                class="language-toggle"
+                id="language-toggle"
+                onclick="toggleLanguage()"
+            >
+                English
+            </button>
         </div>
         <div class="nav-menu">
             <button class="nav-btn active" id="btn-home" onclick="showPage('home')">হোম</button>
@@ -33,34 +41,34 @@
 
         <!-- কমন ইনফরমেশন কার্ড (হোম এবং ইনফরমেশন উভয় পেজেই থাকবে) -->
         <div class="info-card">
-            <!-- নির্দিষ্ট মাপের লোগো (১০৮ x ১০৮, বর্ডার রেডিয়াস ৫০%) -->
-            <div class="info-logo">
-                <img src="image/logo2.jpg" alt="logo">
-            </div>
-            <h2>লার্নিং স্কুল</h2>
-            <div class="info-details">
-                <span>ঠিকানা: ছত্তিশ, ফেঞ্চুগঞ্জ, সিলেট</span> | 
-                <span><span class="badge">স্থাপিত: ২০১৮</span></span>
-            </div>
-        </div>
+    <!-- নির্দিষ্ট মাপের লোগো (১০৮ x ১০৮, বর্ডার রেডিয়াস ৫০%) -->
+    <div class="info-logo">
+        <img src="image/logo2.jpg" alt="logo">
+    </div>
+    <h2 id="school-name-text">লার্নিং স্কুল</h2>
+    <div class="info-details">
+        <span id="school-address-text">ঠিকানা: ছত্তিশ, ফেঞ্চুগঞ্জ, সিলেট</span> | 
+        <span><span class="badge" id="school-established-text">স্থাপিত: ২০১৮</span></span>
+    </div>
+</div>
 
         <!-- হোম পেজ কন্টেন্ট -->
         <div id="home-page" class="page active-page">
             <div class="cards-grid">
-                <!-- কার্ড ১: রেজাল্ট দেখুন -->
-                <div class="action-card" onclick="openResultForm()">
-                    <div class="action-card-icon">🔍</div>
-                    <h3>রেজাল্ট দেখুন</h3>
-                    <button class="btn-card">প্রবেশ করুন</button>
-                </div>
+    <!-- কার্ড ১: রেজাল্ট দেখুন -->
+    <div class="action-card" onclick="openResultForm()">
+        <div class="action-card-icon">🔍</div>
+        <h3 id="view-result-title">রেজাল্ট দেখুন</h3>
+        <button class="btn-card" id="enter-result-button">প্রবেশ করুন</button>
+    </div>
 
-                <!-- কার্ড ২: রেজাল্ট তৈরি করুন -->
-                <div class="action-card" onclick="openResultCreation()">
-                    <div class="action-card-icon">📝</div>
-                    <h3>রেজাল্ট তৈরি করুন</h3>
-                    <button class="btn-card">তৈরি করুন</button>
-                </div>
-            </div>
+    <!-- কার্ড ২: রেজাল্ট তৈরি করুন -->
+    <div class="action-card" onclick="openResultCreation()">
+        <div class="action-card-icon">📝</div>
+        <h3 id="create-result-title">রেজাল্ট তৈরি করুন</h3>
+        <button class="btn-card" id="create-result-button">তৈরি করুন</button>
+    </div>
+</div>
 
 
            <!-- ================= RESULT ANALYSIS CARDS ================= -->
@@ -68,63 +76,78 @@
 
     <!-- ফলাফলের শতকরা হার দেখুন -->
     <div class="percentage-result-card">
-        <h3>ফলাফলের শতকরা হার দেখুন</h3>
+    <h3 id="percentage-result-title">ফলাফলের শতকরা হার দেখুন</h3>
 
-        <button
-            type="button"
-            class="btn-percentage-result"
-            onclick="openPercentageResultForm()"
-        >
-            দেখুন
-        </button>
-    </div>
+    <button
+        type="button"
+        class="btn-percentage-result"
+        id="percentage-result-button"
+        onclick="openPercentageResultForm()"
+    >
+        দেখুন
+    </button>
+</div>
 
 
-    <!-- এ সেশনের সেরাদের সেরা -->
-    <div class="best-students-card">
-        <h3>এক নজরে সকল সেরা শিক্ষার্থী</h3>
+<!-- এ সেশনের সেরাদের সেরা -->
+<div class="best-students-card">
+    <h3 id="best-students-title">এক নজরে সকল সেরা শিক্ষার্থী</h3>
 
-        <button
-            type="button"
-            class="btn-best-students"
-            onclick="openBestStudentsForm()"
-        >
-            দেখুন
-        </button>
-    </div>
+    <button
+        type="button"
+        class="btn-best-students"
+        id="best-students-button"
+        onclick="openBestStudentsForm()"
+    >
+        দেখুন
+    </button>
+</div>
 
 </div>
 
             <!-- ফলাফলের শতকরা হার দেখার ফরম সেকশন -->
             <div class="form-container" id="percentage-result-form-section">
-                <div class="form-header">
-                    <h3>ফলাফলের শতকরা হার দেখুন</h3>
-                    <button
-                        class="btn-close"
-                        type="button"
-                        onclick="closePercentageResultForm()"
-                    >
-                        &times;
-                    </button>
-                </div>
+    <div class="form-header">
+        <h3 id="percentage-form-title">
+            ফলাফলের শতকরা হার দেখুন
+        </h3>
 
-                <form onsubmit="handlePercentageFormSubmit(event)">
-                    <div class="form-group">
-                        <label for="percentage-session-input">সেশন</label>
-                        <input
-                            type="text"
-                            id="percentage-session-input"
-                            class="form-control"
-                            placeholder="সেশন লিখুন"
-                            required
-                        >
-                    </div>
+        <button
+            class="btn-close"
+            type="button"
+            onclick="closePercentageResultForm()"
+        >
+            &times;
+        </button>
+    </div>
 
-                    <button type="submit" class="btn-submit">
-                        খুঁজুন
-                    </button>
-                </form>
-            </div>
+    <form onsubmit="handlePercentageFormSubmit(event)">
+        <div class="form-group">
+            <label
+                for="percentage-session-input"
+                id="percentage-session-label"
+            >
+                সেশন
+            </label>
+
+            <input
+                type="text"
+                id="percentage-session-input"
+                class="form-control"
+                placeholder="সেশন লিখুন"
+                required
+            >
+        </div>
+
+        <button
+            type="submit"
+            class="btn-submit"
+            id="percentage-search-button"
+        >
+            খুঁজুন
+        </button>
+    </form>
+</div>
 
 
             <!-- ফলাফলের শতকরা হার Search Result -->
@@ -140,7 +163,9 @@
 <div class="form-container" id="best-students-form-section">
 
     <div class="form-header">
-        <h3>এক নজরে সেরা শিক্ষার্থী</h3>
+        <h3 id="best-students-form-title">
+            এক নজরে সেরা শিক্ষার্থী
+        </h3>
 
         <button
             class="btn-close"
@@ -154,7 +179,12 @@
     <form onsubmit="handleBestStudentsFormSubmit(event)">
 
         <div class="form-group">
-            <label for="best-students-session-input">সেশন</label>
+            <label
+                for="best-students-session-input"
+                id="best-students-session-label"
+            >
+                সেশন
+            </label>
 
             <input
                 type="text"
@@ -165,7 +195,11 @@
             >
         </div>
 
-        <button type="submit" class="btn-submit">
+        <button
+            type="submit"
+            class="btn-submit"
+            id="best-students-search-button"
+        >
             খুঁজুন
         </button>
 
@@ -181,23 +215,43 @@
 </div>
 
             <!-- রেজাল্ট দেখার ফরম সেকশন -->
-            <div class="form-container" id="result-form-section">
-                <div class="form-header">
-                    <h3>রেজাল্ট দেখুন</h3>
-                    <button class="btn-close" onclick="closeResultForm()">&times;</button>
-                </div>
-                <form onsubmit="handleFormSubmit(event)">
-                    <div class="form-group">
-                        <label for="class-input">ক্লাস</label>
-                        <input type="text" id="class-input" class="form-control" placeholder="ক্লাস লিখুন" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="session-input">সেশন</label>
-                        <input type="text" id="session-input" class="form-control" placeholder="সেশন লিখুন" required>
-                    </div>
-                    <button type="submit" class="btn-submit">খুঁজুন</button>
-                </form>
-            </div>
+<div class="form-container" id="result-form-section">
+    <div class="form-header">
+        <h3 id="result-form-title">রেজাল্ট দেখুন</h3>
+        <button class="btn-close" onclick="closeResultForm()">&times;</button>
+    </div>
+    <form onsubmit="handleFormSubmit(event)">
+        <div class="form-group">
+            <label for="class-input" id="result-class-label">ক্লাস</label>
+            <input
+                type="text"
+                id="class-input"
+                class="form-control"
+                placeholder="ক্লাস লিখুন"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="session-input" id="result-session-label">সেশন</label>
+            <input
+                type="text"
+                id="session-input"
+                class="form-control"
+                placeholder="সেশন লিখুন"
+                required
+            >
+        </div>
+
+        <button
+            type="submit"
+            class="btn-submit"
+            id="result-search-button"
+        >
+            খুঁজুন
+        </button>
+    </form>
+</div>
 
             <!-- রেজাল্ট সার্চের ফলাফল -->
             <div id="result-search-results" class="result-search-results">
@@ -210,35 +264,35 @@
         <div id="info-page" class="page">
             
             <!-- ================= INFORMATION CARD ================= -->
-            <div
-                style="
-                    background:#ffffff;
-                    padding:30px;
-                    border-radius:14px;
-                    box-shadow:0 5px 15px rgba(0,0,0,0.08);
-                    border:1px solid #e1e8ed;
-                    margin-bottom:30px;
-                    transition:transform 0.3s ease, box-shadow 0.3s ease;
-                "
-                onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow=' inset 5px 5px 10px #000000, -5px -5px 10px #ffffff';this.style.background='rgba(47, 3, 244,0.6)';this.style.color='#fff';this.style.fontwidth='bold'"
-                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.08)';this.style.background='#fff';this.style.color='#000000'"
-            >
+           <div
+    style="
+        background:#ffffff;
+        padding:30px;
+        border-radius:14px;
+        box-shadow:0 5px 15px rgba(0,0,0,0.08);
+        border:1px solid #e1e8ed;
+        margin-bottom:30px;
+        transition:transform 0.3s ease, box-shadow 0.3s ease;
+    "
+    onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow=' inset 5px 5px 10px #000000, -5px -5px 10px #ffffff';this.style.background='rgba(47, 3, 244,0.6)';this.style.color='#fff';this.style.fontwidth='bold'"
+    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0,0,0,0.08)';this.style.background='#fff';this.style.color='#000000'"
+>
 
-                <h3>আমাদের প্রতিষ্ঠান সম্পর্কে</h3>
+    <h3 id="about-school-title">আমাদের প্রতিষ্ঠান সম্পর্কে</h3>
 
-                <p>
-                    লার্নিং স্কুল ২০১৮ সালে সিলেট জেলার ফেঞ্চুগঞ্জে প্রতিষ্ঠিত একটি আধুনিক শিক্ষা প্রতিষ্ঠান। এখানে শিক্ষার্থীদের মানসম্মত শিক্ষা প্রদানের পাশাপাশি তাদের সার্বিক বিকাশে কাজ করা হয়।
-                </p>
+    <p id="about-school-text">
+        লার্নিং স্কুল ২০১৮ সালে সিলেট জেলার ফেঞ্চুগঞ্জে প্রতিষ্ঠিত একটি আধুনিক শিক্ষা প্রতিষ্ঠান। এখানে শিক্ষার্থীদের মানসম্মত শিক্ষা প্রদানের পাশাপাশি তাদের সার্বিক বিকাশে কাজ করা হয়।
+    </p>
 
-                <br>
+    <br>
 
-                <h3>আমাদের লক্ষ্য ও উদ্দেশ্য</h3>
+    <h3 id="school-goal-title">আমাদের লক্ষ্য ও উদ্দেশ্য</h3>
 
-                <p>
-                    আধুনিক প্রযুক্তি ও মানসম্মত শিক্ষা ব্যবস্থার মাধ্যমে শিক্ষার্থীদের সুনাগরিক হিসেবে গড়ে তোলা এবং শিক্ষার আলো সর্বত্র ছড়িয়ে দেওয়া।
-                </p>
+    <p id="school-goal-text">
+        আধুনিক প্রযুক্তি ও মানসম্মত শিক্ষা ব্যবস্থার মাধ্যমে শিক্ষার্থীদের সুনাগরিক হিসেবে গড়ে তোলা এবং শিক্ষার আলো সর্বত্র ছড়িয়ে দেওয়া।
+    </p>
 
-            </div>
+</div>
 
 
             <!-- ================= DIRECTOR MANAGEMENT & INFORMATION CARD ================= -->
@@ -554,7 +608,7 @@
             
             <div class="section-last__content-2 card-footer">
                 
-                <img src="image/hussain.jpg" alt="hussain">
+                <img src="image/hussain2.jpg" alt="hussain">
                 <h2 style="font-family:Arial, Helvetica, sans-serif; font-size: 1.4rem; font-weight: bold;">Developed by: Md. Rabbik Hussain</h2>
                 <p style="font-family: 'Times New Roman', Times, serif; font-size: 20px;">Helpline: <i class="fa-solid fa-phone"></i> +880 1819-682851</p>
                 <p style="font-size: 16px;">E-mail: <i class="fa-regular fa-envelope"></i> rabbikhussain722245@gmail.com</p>
