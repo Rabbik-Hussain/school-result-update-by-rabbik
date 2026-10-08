@@ -2671,3 +2671,39 @@ body {
 .best-student-item > div {
     text-align: center;
 }
+
+
+/* ================= EDUCATION MESSAGE MARQUEE ================= */
+
+.education-message-bar {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 7px 12px;
+    margin: 0;
+    overflow: hidden;
+    background: linear-gradient(90deg, #e8f5e9, #e3f2fd, #fff3e0);
+    border-top: 1px solid #b3e5fc;
+    border-bottom: 1px solid #b3e5fc;
+}
+
+.education-message-bar marquee {
+    display: block;
+    width: 100%;
+    font-size: 20px;
+    font-width: bold;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+.education-message-english {
+    color: #ff0000;
+    font-size: 20px;
+    font-width: bold;
+}
+
+.education-message-bangla {
+    color: #1e00ff;
+    font-size: 20px;
+    font-width: bold;
+    padding-left: 180px;
+}
