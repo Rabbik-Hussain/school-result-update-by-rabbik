@@ -171,11 +171,11 @@ try {
     }
 
     // প্রয়োজনীয় Working Days
-    totalWorkingDaysCount =
-        classData.totalWorkingDays || 0;
+   monthlyWorkingDays =
+    classData.monthlyWorkingDays || [];
 
-    monthlyWorkingDays =
-        classData.monthlyWorkingDays || [];
+totalWorkingDaysCount =
+    getSelectedTermWorkingDays(classKey, selectedTerm);
 
     // Result Table-এ আগের existing function ব্যবহার
 renderResultTable(classKey);
@@ -375,12 +375,242 @@ function confirmStudentSelection() {
 }
 
 // 15 Days Edit Lock Check
-function isRecordLocked(createdAtTimestamp) {
-    if (!createdAtTimestamp) return false;
+// =========================================================
+// পৃথক প্রান্তিকের ১৫ দিনের Edit Lock System
+// =========================================================
 
-    const fifteenDaysInMs = 15 * 24 * 60 * 60 * 1000;
+const TERM_LOCK_DURATION_MS = 15 * 24 * 60 * 60 * 1000;
 
-    return (Date.now() - Number(createdAtTimestamp)) > fifteenDaysInMs;
+let termLockTimer = null;
+
+function getTermLockInfo(classKey, term) {
+
+    const classData = schoolDatabase[classKey];
+
+    if (!classData || !classData.termMeta || !classData.termMeta[term]) {
+        return {
+            exists: false,
+            locked: false,
+            remaining: 0
+        };
+    }
+
+    const completedAt = Number(
+        classData.termMeta[term].completedAt
+    );
+
+    if (!completedAt) {
+        return {
+            exists: false,
+            locked: false,
+            remaining: 0
+        };
+    }
+
+    const remaining =
+        TERM_LOCK_DURATION_MS - (Date.now() - completedAt);
+
+    return {
+        exists: true,
+        locked: remaining <= 0,
+        remaining: Math.max(0, remaining)
+    };
+}
+
+
+// Edit Mode খোলা থাকলেও সময় শেষ হলে ইনপুট বন্ধ করবে
+function applyTermLockToOpenForm(classKey, term) {
+
+    const lockInfo = getTermLockInfo(classKey, term);
+
+    if (!lockInfo.locked) return;
+
+    const container =
+        document.getElementById('studentsMarksContainer');
+
+    if (container) {
+
+        container.querySelectorAll('input, select, textarea').forEach(input => {
+            input.disabled = true;
+        });
+
+        let lockMessage =
+            document.getElementById('termLockMessage');
+
+        if (!lockMessage) {
+
+            lockMessage = document.createElement('div');
+            lockMessage.id = 'termLockMessage';
+
+            lockMessage.style.cssText = `
+                background: #fff0f0;
+                color: #c62828;
+                border: 1px solid #e57373;
+                padding: 14px;
+                margin-bottom: 15px;
+                border-radius: 8px;
+                font-weight: bold;
+                text-align: center;
+            `;
+
+            container.prepend(lockMessage);
+        }
+
+        lockMessage.innerText =
+            'এই প্রান্তিকের ১৫ দিনের সময়সীমা শেষ। রেজাল্ট লক হয়ে গেছে। এখন আর কোনো পরিবর্তন করা যাবে না।';
+    }
+
+    isEditingExistingResult = false;
+}
+
+
+// সময় শেষ হওয়ার মুহূর্তে স্বয়ংক্রিয়ভাবে Lock করবে
+function scheduleTermLockCheck(classKey, term) {
+
+    if (termLockTimer) {
+        clearTimeout(termLockTimer);
+        termLockTimer = null;
+    }
+
+    const lockInfo = getTermLockInfo(classKey, term);
+
+    if (!lockInfo.exists || lockInfo.locked) {
+        if (lockInfo.locked) {
+            applyTermLockToOpenForm(classKey, term);
+        }
+        return;
+    }
+
+    termLockTimer = setTimeout(() => {
+
+        applyTermLockToOpenForm(classKey, term);
+
+        alert(
+            'এই প্রান্তিকের ১৫ দিনের সময়সীমা শেষ হয়েছে। রেজাল্ট লক হয়ে গেছে।'
+        );
+
+    }, lockInfo.remaining + 100);
+}
+
+// =========================================================
+// প্রান্তিকভিত্তিক মাস বরাদ্দ ও Lock System
+// =========================================================
+
+// কোনো মাস কোন প্রান্তিকে প্রথম সংরক্ষিত হয়েছে
+// classData.monthTermMap = ["1", null, "2", ...];
+
+function getCurrentClassKey() {
+    const cName =
+        document.getElementById('className')?.value.trim() || '';
+
+    const sYear =
+        document.getElementById('sessionYear')?.value.trim() || '';
+
+    return `${cName}_${sYear}`;
+}
+
+
+function getMonthTermMap(classKey) {
+    const classData = schoolDatabase[classKey];
+
+    if (!classData) {
+        return Array(12).fill(null);
+    }
+
+    if (!Array.isArray(classData.monthTermMap)) {
+        classData.monthTermMap = Array(12).fill(null);
+    }
+
+    while (classData.monthTermMap.length < 12) {
+        classData.monthTermMap.push(null);
+    }
+
+    return classData.monthTermMap;
+}
+
+
+// নির্বাচিত প্রান্তিকের মোট কার্যদিবস
+function getSelectedTermWorkingDays(classKey, term) {
+
+    const monthTermMap =
+        getMonthTermMap(classKey);
+
+    let total = 0;
+
+    for (let i = 0; i < 12; i++) {
+
+        const owner = monthTermMap[i];
+        const days = Number(monthlyWorkingDays[i]) || 0;
+
+        if (
+            String(owner) === String(term) ||
+            (!owner && days > 0)
+        ) {
+            total += days;
+        }
+    }
+
+    return total;
+}
+
+
+// Step 2-তে আগের মাস দেখানো এবং Lock করা
+function prepareTermMonthInputs() {
+
+    const classKey = getCurrentClassKey();
+    const classData = schoolDatabase[classKey];
+
+    const savedDays =
+        classData && Array.isArray(classData.monthlyWorkingDays)
+            ? classData.monthlyWorkingDays
+            : Array(12).fill(0);
+
+    const monthTermMap =
+        getMonthTermMap(classKey);
+
+    const lockInfo =
+        getTermLockInfo(classKey, selectedTerm);
+
+    const inputs =
+        document.querySelectorAll('.month-input');
+
+    inputs.forEach((input, index) => {
+
+        const owner = monthTermMap[index];
+        const savedValue = Number(savedDays[index]) || 0;
+
+        input.dataset.monthIndex = index;
+
+        if (owner && String(owner) !== String(selectedTerm)) {
+
+            // অন্য প্রান্তিকে ব্যবহৃত মাস
+            input.value = savedValue;
+            input.disabled = true;
+
+        } else {
+
+            // নিজের প্রান্তিক অথবা আগে ব্যবহার না হওয়া মাস
+            input.value = savedValue;
+            input.disabled = lockInfo.locked;
+        }
+    });
+
+    calculateWorkingDays();
+}
+
+
+// নির্বাচিত প্রান্তিকের মাসগুলোতে শিক্ষার্থীর উপস্থিতি যোগ
+function isMonthAvailableForSelectedTerm(monthIndex) {
+
+    const classKey = getCurrentClassKey();
+    const monthTermMap = getMonthTermMap(classKey);
+
+    const owner = monthTermMap[monthIndex];
+
+    return (
+        !owner ||
+        String(owner) === String(selectedTerm)
+    );
 }
 
 // Dynamic Months Setup
@@ -395,15 +625,53 @@ monthsFull.forEach((m) => {
 });
 
 function calculateWorkingDays() {
-    let inputs = document.querySelectorAll('.month-input');
+
+    const classKey = getCurrentClassKey();
+    const classData = schoolDatabase[classKey];
+
+    const oldDays =
+        classData && Array.isArray(classData.monthlyWorkingDays)
+            ? classData.monthlyWorkingDays
+            : Array(12).fill(0);
+
+    const monthTermMap =
+        getMonthTermMap(classKey);
+
+    const inputs =
+        document.querySelectorAll('.month-input');
+
+    monthlyWorkingDays = Array(12).fill(0);
+
     totalWorkingDaysCount = 0;
-    monthlyWorkingDays = [];
-    inputs.forEach(inp => {
-        let val = Number(inp.value) || 0;
-        monthlyWorkingDays.push(val);
-        totalWorkingDaysCount += val;
+
+    inputs.forEach((input, index) => {
+
+        const owner = monthTermMap[index];
+
+        let value = Number(input.value) || 0;
+
+        // অন্য প্রান্তিকে বরাদ্দ করা মাসের মান অপরিবর্তিত থাকবে
+        if (owner && String(owner) !== String(selectedTerm)) {
+            value = Number(oldDays[index]) || 0;
+        }
+
+        monthlyWorkingDays[index] = value;
+
+        // শুধু নির্বাচিত প্রান্তিকের কার্যদিবস গণনা
+        if (
+            !owner ||
+            String(owner) === String(selectedTerm)
+        ) {
+            totalWorkingDaysCount += value;
+        }
     });
-    document.getElementById('totalWorkingDays').innerText = totalWorkingDaysCount;
+
+    const totalElement =
+        document.getElementById('totalWorkingDays');
+
+    if (totalElement) {
+        totalElement.innerText = totalWorkingDaysCount;
+    }
 }
 
 function generateSubjectFields() {
@@ -508,17 +776,23 @@ const classKey = `${cName}_${sYear}`;
         });
     }
 
-    goToStep(2);
+   prepareTermMonthInputs();
+goToStep(2);
 }
 
 function goToStep3() {
+
     if (totalWorkingDaysCount <= 0) {
         alert('অনুগ্রহ করে কার্যদিবসের সঠিক সংখ্যা প্রবেশ করান!');
         return;
     }
 
-    let studentCount = parseInt(document.getElementById('totalStudents').value) || 0;
-    let container = document.getElementById('studentsMarksContainer');
+    let studentCount =
+        parseInt(document.getElementById('totalStudents').value) || 0;
+
+    let container =
+        document.getElementById('studentsMarksContainer');
+
     container.innerHTML = "";
 
     let cName = document.getElementById('className').value;
@@ -547,54 +821,110 @@ function goToStep3() {
         return;
     }
 
+    // শুধু নির্বাচিত প্রান্তিকের Lock Check
+    const termLockInfo =
+        getTermLockInfo(classKey, selectedTerm);
+
+    const isTermLocked = termLockInfo.locked;
+
+    // Lock হয়ে থাকলে পুরোনো প্রান্তিকের সব ইনপুট বন্ধ
+    if (isTermLocked) {
+        isEditingExistingResult = false;
+    }
+
+    // আগে থেকে চালু থাকা Timer বন্ধ
+    if (termLockTimer) {
+        clearTimeout(termLockTimer);
+        termLockTimer = null;
+    }
+
     for (let s = 0; s < studentCount; s++) {
-        let existingStudent = (schoolDatabase[classKey] && schoolDatabase[classKey].students) ? schoolDatabase[classKey].students[s] : null;
-        let isLocked = existingStudent ? isRecordLocked(existingStudent.createdAt) : false;
+
+        let existingStudent =
+            (schoolDatabase[classKey] &&
+             schoolDatabase[classKey].students)
+                ? schoolDatabase[classKey].students[s]
+                : null;
+
+        let isLocked = isTermLocked;
 
         let monthInputsHTML = "";
+
         monthsShort.forEach((m, mIdx) => {
-            let existingVal = (existingStudent && existingStudent.monthlyAtt) ? existingStudent.monthlyAtt[mIdx] || "" : "";
-            monthInputsHTML += `
-                <div>
-                    <input type="number" 
-                           class="stud-month-${s}" 
-                           placeholder="${m}" 
-                           min="0" 
-                           value="${existingVal}"
-                           ${isLocked ? 'disabled' : ''}
-                           oninput="checkAttendanceValidation(this, ${s}, ${mIdx})">
-                </div>
-            `;
+
+            let existingVal =
+    (existingStudent && existingStudent.monthlyAtt)
+        ? existingStudent.monthlyAtt[mIdx] ?? ""
+        : "";
+
+const monthOwner =
+    getMonthTermMap(classKey)[mIdx];
+
+const isPreviousTermMonth =
+    monthOwner &&
+    String(monthOwner) !== String(selectedTerm);
+
+const isMonthLocked =
+    isLocked || isPreviousTermMonth;
+
+monthInputsHTML += `
+    <div>
+        <input type="number"
+               class="stud-month-${s}"
+               placeholder="${m}"
+               min="0"
+               value="${existingVal}"
+               ${isMonthLocked ? 'disabled' : ''}
+               oninput="checkAttendanceValidation(this, ${s}, ${mIdx})">
+    </div>
+`;
         });
 
         monthInputsHTML += `
             <div>
-                <input type="number" 
-                       id="att-${s}" 
-                       placeholder="মোট" 
-                       readonly 
+                <input type="number"
+                       id="att-${s}"
+                       placeholder="মোট"
+                       readonly
                        style="background-color: #d1ecf1; font-weight: bold; border-color: #17a2b8;">
             </div>
         `;
 
         let subInputsHTML = "";
+
         subjectsData.forEach((sub, subIdx) => {
-            let isAttendanceSubject = (sub.name === "উপস্থিতি");
+
+            let isAttendanceSubject =
+                (sub.name === "উপস্থিতি");
+
             let existingMark = "";
-            if (existingStudent && existingStudent.terms && existingStudent.terms[selectedTerm]) {
-                let savedSub = existingStudent.terms[selectedTerm].subResults.find(r => r.name === sub.name);
-                if (savedSub) existingMark = savedSub.mark;
+
+            if (
+                existingStudent &&
+                existingStudent.terms &&
+                existingStudent.terms[selectedTerm]
+            ) {
+
+                let savedSub =
+                    existingStudent.terms[selectedTerm].subResults.find(
+                        r => r.name === sub.name
+                    );
+
+                if (savedSub) {
+                    existingMark = savedSub.mark;
+                }
             }
 
             subInputsHTML += `
                 <div class="form-group">
                     <label>${sub.name} (পূর্ণমান: ${sub.fullMark}):</label>
-                    <input type="number" 
-                           class="stud-mark-${s}" 
+
+                    <input type="number"
+                           class="stud-mark-${s}"
                            id="mark-${s}-${subIdx}"
-                           data-subidx="${subIdx}" 
-                           min="0" 
-                           max="${sub.fullMark}" 
+                           data-subidx="${subIdx}"
+                           min="0"
+                           max="${sub.fullMark}"
                            placeholder="প্রাপ্ত নম্বর"
                            value="${existingMark}"
                            ${isLocked ? 'disabled' : ''}
@@ -605,44 +935,106 @@ function goToStep3() {
 
         container.innerHTML += `
             <div class="card">
+
                 <div class="grid-2" style="align-items: center; margin-bottom: 15px;">
+
                     <div class="form-group" style="margin-bottom: 0;">
                         <label>রোল নম্বর:</label>
-                        <input type="text" value="রোল ${s+1}" readonly style="font-weight: bold; background-color: #e9ecef; color: var(--secondary-blue);">
+
+                        <input type="text"
+                               value="রোল ${s+1}"
+                               readonly
+                               style="font-weight: bold; background-color: #e9ecef; color: var(--secondary-blue);">
                     </div>
+
                     <div style="font-weight: bold; color: var(--primary-green); font-size: 15px; margin-top: 18px;">
                         রোলের সিরিয়াল অনুযায়ী মার্ক তুলুন
                     </div>
+
                 </div>
-                <h4>শিক্ষার্থী ${s+1}-এর তথ্য ${isLocked ? '<span style="color:red; font-size:12px;">(১৫ দিন পার হওয়ায় তথ্য লক হয়ে গেছে)</span>' : ''}</h4>
+
+                <h4>
+                    শিক্ষার্থী ${s+1}-এর তথ্য
+                    ${isLocked
+                        ? '<span style="color:red; font-size:12px;">(এই প্রান্তিক লক হয়ে গেছে)</span>'
+                        : ''
+                    }
+                </h4>
+
                 <div class="grid-2">
+
                     <div class="form-group">
                         <label>শিক্ষার্থীর নাম:</label>
-                        <input type="text" class="stud-name" placeholder="নাম লিখুন" value="${existingStudent ? existingStudent.name : ''}" ${isLocked ? 'disabled' : ''}>
+
+                        <input type="text"
+                               class="stud-name"
+                               placeholder="নাম লিখুন"
+                               value="${existingStudent ? existingStudent.name : ''}"
+                               ${isLocked ? 'disabled' : ''}>
                     </div>
 
                     <div class="form-group">
                         <label>Student ID:</label>
-                        <input type="text" class="stud-id" placeholder="Student ID লিখুন" value="${existingStudent && existingStudent.studentId ? existingStudent.studentId : ''}" ${isLocked ? 'disabled' : ''}>
+
+                        <input type="text"
+                               class="stud-id"
+                               placeholder="Student ID লিখুন"
+                               value="${existingStudent && existingStudent.studentId ? existingStudent.studentId : ''}"
+                               ${isLocked ? 'disabled' : ''}>
                     </div>
+
                 </div>
-                
+
                 <div class="form-group">
                     <label>মাসের ভিত্তিক উপস্থিতি (১২ মাস + ১৩ নম্বর ঘরে মোট দিন):</label>
+
                     <div class="grid-attendance-13">
                         ${monthInputsHTML}
                     </div>
                 </div>
 
                 <h5>বিষয়ভিত্তিক নম্বর:</h5>
-                <div class="grid-3">${subInputsHTML}</div>
+
+                <div class="grid-3">
+                    ${subInputsHTML}
+                </div>
+
             </div>
         `;
 
         setTimeout(() => calculateStudentTotalAttendance(s), 100);
     }
 
+    // লক হয়ে থাকলে বার্তা দেখাবে
+    if (isTermLocked) {
+
+        const lockMessage = document.createElement('div');
+
+        lockMessage.id = 'termLockMessage';
+
+        lockMessage.style.cssText = `
+            background: #fff0f0;
+            color: #c62828;
+            border: 1px solid #e57373;
+            padding: 14px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+        `;
+
+        lockMessage.innerText =
+            'এই প্রান্তিকের ১৫ দিনের সময়সীমা শেষ। রেজাল্ট লক হয়ে গেছে। এখন আর কোনো পরিবর্তন করা যাবে না।';
+
+        container.prepend(lockMessage);
+    }
+
     goToStep(3);
+
+    // Edit Mode খোলা থাকলে সময় শেষ হওয়ার মুহূর্তে Lock
+    if (!isTermLocked) {
+        scheduleTermLockCheck(classKey, selectedTerm);
+    }
 }
 
 // Attendance Input Validation
@@ -663,23 +1055,58 @@ function checkAttendanceValidation(inputElement, studentIndex, monthIndex) {
 }
 
 function calculateStudentTotalAttendance(studentIndex) {
-    let monthInputs = document.querySelectorAll(`.stud-month-${studentIndex}`);
+
+    const classKey = getCurrentClassKey();
+
+    const monthInputs =
+        document.querySelectorAll(`.stud-month-${studentIndex}`);
+
     let totalAttDays = 0;
 
-    monthInputs.forEach(inp => {
-        totalAttDays += Number(inp.value) || 0;
+    monthInputs.forEach((input, index) => {
+
+        // অন্য প্রান্তিকের মাস হিসাবের বাইরে থাকবে
+        if (!isMonthAvailableForSelectedTerm(index)) {
+            return;
+        }
+
+        totalAttDays += Number(input.value) || 0;
     });
 
-    let totalAttInput = document.getElementById(`att-${studentIndex}`);
-    if(totalAttInput) totalAttInput.value = totalAttDays;
+    const totalAttInput =
+        document.getElementById(`att-${studentIndex}`);
+
+    if (totalAttInput) {
+        totalAttInput.value = totalAttDays;
+    }
+
+    const selectedWorkingDays =
+        getSelectedTermWorkingDays(
+            classKey,
+            selectedTerm
+        );
 
     subjectsData.forEach((sub, subIdx) => {
+
         if (sub.name === "উপস্থিতি") {
-            let markInput = document.getElementById(`mark-${studentIndex}-${subIdx}`);
-            if (markInput && totalWorkingDaysCount > 0) {
-                let percentage = totalAttDays / totalWorkingDaysCount;
-                let calculatedMark = Math.round(percentage * sub.fullMark);
-                markInput.value = calculatedMark > sub.fullMark ? sub.fullMark : calculatedMark;
+
+            const markInput =
+                document.getElementById(
+                    `mark-${studentIndex}-${subIdx}`
+                );
+
+            if (markInput && selectedWorkingDays > 0) {
+
+                const percentage =
+                    totalAttDays / selectedWorkingDays;
+
+                const calculatedMark =
+                    Math.round(percentage * sub.fullMark);
+
+                markInput.value =
+                    calculatedMark > sub.fullMark
+                        ? sub.fullMark
+                        : calculatedMark;
             }
         }
     });
@@ -799,6 +1226,21 @@ if (currentTeacherDesignation === 'শ্রেণী শিক্ষক (Class 
 
     let classKey = `${cName}_${sYear}`;
 
+    // Save করার আগেই নির্বাচিত প্রান্তিকের Lock যাচাই
+const currentTermLock =
+    getTermLockInfo(classKey, selectedTerm);
+
+if (currentTermLock.locked) {
+
+    applyTermLockToOpenForm(classKey, selectedTerm);
+
+    alert(
+        'এই প্রান্তিকের ১৫ দিনের সময়সীমা শেষ। তাই আর Save করা যাবে না।'
+    );
+
+    return;
+}
+
     if(!schoolDatabase[classKey]) {
         schoolDatabase[classKey] = {
             className: cName,
@@ -846,6 +1288,81 @@ if (!isEditingSameExistingResult) {
 
     let studNames = document.querySelectorAll('.stud-name');
     let studIds = document.querySelectorAll('.stud-id');
+
+
+    // =========================================================
+// নির্বাচিত প্রান্তিকের মাস সংরক্ষণ
+// =========================================================
+
+const currentClassData =
+    schoolDatabase[classKey];
+
+if (!Array.isArray(currentClassData.monthlyWorkingDays)) {
+    currentClassData.monthlyWorkingDays = Array(12).fill(0);
+}
+
+if (!Array.isArray(currentClassData.monthTermMap)) {
+    currentClassData.monthTermMap = Array(12).fill(null);
+}
+
+while (currentClassData.monthlyWorkingDays.length < 12) {
+    currentClassData.monthlyWorkingDays.push(0);
+}
+
+while (currentClassData.monthTermMap.length < 12) {
+    currentClassData.monthTermMap.push(null);
+}
+
+for (let monthIndex = 0; monthIndex < 12; monthIndex++) {
+
+    const owner =
+        currentClassData.monthTermMap[monthIndex];
+
+    const newWorkingDays =
+        Number(monthlyWorkingDays[monthIndex]) || 0;
+
+    // অন্য প্রান্তিকে বরাদ্দ করা মাস পরিবর্তন করা যাবে না
+    if (
+        owner &&
+        String(owner) !== String(selectedTerm)
+    ) {
+        continue;
+    }
+
+    // আগে ব্যবহার না করা মাসে কার্যদিবস দিলে
+    // সেটি বর্তমান প্রান্তিকের নামে বরাদ্দ হবে
+    if (!owner && newWorkingDays > 0) {
+
+        currentClassData.monthTermMap[monthIndex] =
+            String(selectedTerm);
+    }
+
+    // বর্তমান প্রান্তিকের মাসের কার্যদিবস আপডেট
+    if (
+        !currentClassData.monthTermMap[monthIndex] ||
+        String(currentClassData.monthTermMap[monthIndex]) ===
+        String(selectedTerm)
+    ) {
+        currentClassData.monthlyWorkingDays[monthIndex] =
+            newWorkingDays;
+    }
+}
+
+// সব প্রান্তিকের মাসের তথ্য অক্ষত রেখে সংরক্ষণ
+monthlyWorkingDays =
+    currentClassData.monthlyWorkingDays.slice();
+
+// শুধু নির্বাচিত প্রান্তিকের কার্যদিবস গণনা
+totalWorkingDaysCount =
+    getSelectedTermWorkingDays(classKey, selectedTerm);
+
+// Class-এর সব মাসের কার্যদিবসের মোট
+currentClassData.totalWorkingDays =
+    currentClassData.monthlyWorkingDays.reduce(
+        (sum, value) => sum + (Number(value) || 0),
+        0
+    );
+
 
     // Student ID duplicate validation
     for (let i = 0; i < studIds.length; i++) {
@@ -952,9 +1469,29 @@ if (!isEditingSameExistingResult) {
         saveOrUpdateStudentProgress(classKey, studentPayload, i);
     }
 
+    // প্রতিটি প্রান্তিকের Completion Time একবারই সংরক্ষণ হবে
+    if (!schoolDatabase[classKey].termMeta) {
+        schoolDatabase[classKey].termMeta = {};
+    }
+
+    if (!schoolDatabase[classKey].termMeta[selectedTerm]) {
+
+        schoolDatabase[classKey].termMeta[selectedTerm] = {
+            completedAt: Date.now()
+        };
+    }
+
     calculateRankings(classKey);
+
     saveToLocalStorage();
+
+    if (termLockTimer) {
+        clearTimeout(termLockTimer);
+        termLockTimer = null;
+    }
+
     renderResultTable(classKey);
+
     goToStep(4);
 }
 
@@ -1145,11 +1682,56 @@ function handleEditCurrentStudent() {
         return;
     }
 
+    // নির্বাচিত প্রান্তিকের Lock পরীক্ষা
+    const lockInfo =
+        getTermLockInfo(classKey, selectedTerm);
+
+    if (lockInfo.locked) {
+
+        alert(
+            'এই প্রান্তিকের ১৫ দিনের সময়সীমা শেষ। রেজাল্ট লক হয়ে গেছে। এখন আর Edit করা যাবে না।'
+        );
+
+        return;
+    }
+
+    // পুরোনো সংরক্ষিত রেজাল্টে termMeta না থাকলে
+    // প্রথম Edit-এর সময় থেকে ১৫ দিনের সময়সীমা শুরু হবে
+    const hasExistingResult =
+        classRecord &&
+        Array.isArray(classRecord.students) &&
+        classRecord.students.some(
+            student =>
+                student &&
+                student.terms &&
+                student.terms[selectedTerm]
+        );
+
+    if (
+        hasExistingResult &&
+        (!classRecord.termMeta ||
+         !classRecord.termMeta[selectedTerm])
+    ) {
+
+        if (!classRecord.termMeta) {
+            classRecord.termMeta = {};
+        }
+
+        classRecord.termMeta[selectedTerm] = {
+            completedAt: Date.now()
+        };
+
+        saveToLocalStorage();
+    }
+
     isEditingExistingResult = true;
+
     editingExistingClassKey = classKey;
+
     editingExistingTerm = selectedTerm;
 
     showFormView();
+
     goToStep(1);
 }
 
